@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-05T15:00:34.094Z",
+  "updatedAt": "2026-05-05T15:39:45.074Z",
   "createdAt": "2026-05-05T01:02:10.999Z",
   "id": "UrvuvpaG5vlFDItN",
   "name": "github backup",
@@ -176,7 +176,7 @@
             {
               "value1": "={{ $('Aggregate').item.json.name }}",
               "operation": "contains",
-              "value2": "={{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}-{{ $('Retrieve workflows').item.json.tags[0].name }}.json"
+              "value2": "={{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}.json"
             }
           ]
         }
@@ -251,7 +251,7 @@
               "id": "b0fe1bcc-e79c-4a6b-b8b4-44222c8bf4e8",
               "name": "fileName",
               "type": "string",
-              "value": "={{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}-{{ $('Retrieve workflows').item.json.tags[0].name }}.json"
+              "value": "={{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}.json"
             }
           ]
         },
@@ -405,7 +405,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "dab0f1ab-abb6-4640-b737-c7940cabb96d",
+  "versionId": "0374ad7e-f64e-40ff-a2ec-10ddc5dce201",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
