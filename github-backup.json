@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-05T15:39:45.074Z",
+  "updatedAt": "2026-05-05T15:40:01.881Z",
   "createdAt": "2026-05-05T01:02:10.999Z",
   "id": "UrvuvpaG5vlFDItN",
   "name": "github backup",
@@ -114,7 +114,7 @@
           "cachedResultName": "n8n",
           "cachedResultUrl": "https://github.com/joelkaufman/n8n"
         },
-        "filePath": "={{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}-{{ $('Retrieve workflows').item.json.tags[0].name }}.json",
+        "filePath": "={{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}.json",
         "fileContent": "={{ $('To base64').item.json.data }}",
         "commitMessage": "=backup-{{ $('Commit date & file name').item.json.commitDate }}"
       },
@@ -405,7 +405,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "0374ad7e-f64e-40ff-a2ec-10ddc5dce201",
+  "versionId": "d8c7beaa-d5a6-41ed-a33e-b50871b79002",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
