@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-05T00:46:22.762Z",
+  "updatedAt": "2026-05-05T15:28:45.657Z",
   "createdAt": "2026-05-01T16:49:49.853Z",
   "id": "StOGDuubavpou92g",
   "name": "Applications",
@@ -9,7 +9,7 @@
     {
       "parameters": {
         "postProcessAction": "nothing",
-        "downloadAttachments": true,
+        "format": "resolved",
         "options": {
           "customEmailConfig": "[[\"FROM\", \"joel@firstlygroup.com\"]]",
           "trackLastMessageId": "={{ true }}"
@@ -39,7 +39,7 @@
           "mode": "list",
           "cachedResultName": "models/gemini-3-flash-preview"
         },
-        "text": "=Extract the following data from the document and return it as a JSON object conforming to the provided schema.\n\nCRITICAL FORMATTING REQUIREMENTS:\n\nReplace any newline characters within extracted string values with a single space.\nIf a specific field cannot be found, return an empty space for that field.\nif the field is a boolean return Yes or No or a blank space do not use null replace all nulls with a blank space\nuse date format yyyy-mm-dd\nExtraction Instructions:\n\nCompanyName: Find the value associated with labels like 'Company Name:' data type is text.\nCompanyEIN: Find the value associated with labels like 'Company EIN Number:' data type is text.\nApplicantName: Find the value associated with labels like 'Your name' data type is text.\nSSN: Find the value associated with labels like 'Social security number' data type is text.\nStreetAddress: Find the value associated with labels like 'Street address where you live' data type is text.\nCityTownStateZip: Find the value associated with labels like 'City or town, state, and ZIP code' data type is text.\nCounty: Find the value associated with labels like 'County' data type is text.\nTelephone: Find the value associated with labels like 'Telephone number' data type is text.\nDOB: Find the value associated with labels like 'If you are under age 40, enter your date of birth (month, day, year)' data type is date.\nConditionalCert: Find the value associated with labels like 'Check here if you received a conditional certification from the state workforce agency (SWA) or a participating local agency for the work opportunity credit.' data type is boolean.\nGeneralEligibility: Find the value associated with labels like 'Check here if any of the following statements apply to you' data type is boolean.\nUnemployedVeteran6Mo: Find the value associated with labels like 'Check here if you are a veteran and you were unemployed for a period or periods totaling at least 6 months during the past year.' data type is boolean.\nDisabledVeteran1Yr: Find the value associated with labels like 'Check here if you are a veteran entitled to compensation for a service-connected disability and you were discharged or released from active duty in the U.S. Armed Forces during the past year.' data type is boolean.\nDisabledVeteran6Mo: Find the value associated with labels like 'Check here if you are a veteran entitled to compensation for a service-connected disability and you were unemployed for a period or periods totaling at least 6 months during the past year.' data type is boolean.\nLongTermTANF: Find the value associated with labels like 'Check here if you are a member of a family that: Received TANF payments for at least the past 18 months; or Received TANF payments for any 18 months beginning after August 5, 1997...' data type is boolean.\nLongTermUnemployed: Find the value associated with labels like 'Check here if you are in a period of unemployment that is at least 27 consecutive weeks and for all or part of that period you received unemployment compensation.' data type is boolean.\nRehireStatus: Find the value associated with labels like 'Have you ever worked for this Employer before? Are you a Re-hire?' data type is boolean.\nUnderAge40: Find the value associated with labels like 'Are you under age 40?' data type is boolean.\nUnemployed27Weeks: Find the value associated with labels like 'Have you been unemployed for at least 27 weeks, and collected Unemployment Insurance?' data type is boolean.\nVeteranStatus: Find the value associated with labels like 'Are you a Veteran of the US Armed Forces?' data type is boolean.\nVeteranSNAP: Find the value associated with labels like 'Are you a member of a family that received SNAP (Food Stamps Benefits)?' data type is boolean.\nVeteranDischargedLastYear: Find the value associated with labels like 'Were you discharged from active duty within the last year?' data type is boolean.\nVeteranServiceDisability: Find the value associated with labels like 'Are you entitled to compensation for a service-connected disability?' data type is boolean.\nVeteranUnemployed6Months: Find the value associated with labels like 'Were you unemployed for a combined total of 6 months before you were hired?' data type is boolean.\nFamilySNAP: Find the value associated with labels like 'Have you, or your family, received SNAP benefits (Food Stamps) in the 6 months before you were hired? Or received SNAP Benefits for at least a 3-month period, but you are no longer receiving it?' data type is boolean.\nPrimaryRecipientSNAP: Find the value associated with labels like 'If yes to either question, enter Name of Primary Recipient:' data type is text.\nSNAPLocation: Find the value associated with labels like 'And City, State where benefits were received' data type is text.\nFamilyTANF: Find the value associated with labels like 'Are you a member of a family that received TANF assistance for at least 18 months before you were hired? Or, did your family stop being eligible for TANF assistance within 2 years before being hired...' data type is boolean.\nPrimaryRecipientTANF: Find the value associated with labels like 'If yes to either question, enter Name of Primary Recipient:' data type is text.\nTANFLocation: Find the value associated with labels like 'And City, State where benefits were received' data type is text.\nSSIBenefits: Find the value associated with labels like 'Did you receive Supplemental Security Income (SSI Benefits) for any month, ending within the 60 days, before you were hired?' data type is boolean.\nFelonyConviction: Find the value associated with labels like 'Were you convicted of a Felony during the year before you were hired?' data type is boolean.\nVocationalRehabReferral: Find the value associated with labels like 'A Vocational Rehab Agency approved by the state?' data type is boolean.\nEmploymentNetworkReferral: Find the value associated with labels like 'An Employment Network under the Ticket to Work Program?' data type is boolean.\nVeteranAffairsReferral: Find the value associated with labels like 'The Dept. of Veteran Affairs?' data type is boolean.\nEmploymentStartDate: Find the value associated with labels like 'Employment Start Date' data type is date.\nStartingWage: Find the value associated with labels like 'Starting Wage' data type is Currency. remove the dollar symbol and use number format and not a string \nPosition: Find the value associated with labels like 'Position' data type is text.\nApplicationDate: Find the value associated with labels like 'Today’s Date' data type is date.\nYouthName: Find the value associated with labels like '1. Last name: First name: Middle initial:' data type is text.\nYouthBirthDate: Find the value associated with labels like '2. Birth date (mm/dd/yyyy):' data type is date.\nYouthSSN: Find the value associated with labels like '3. Social Security Number:' data type is text.\nYouthAddress: Find the value associated with labels like '4. Home address:' data type is text.\nYouthCity: Find the value associated with labels like '5. City:' data type is text.\nYouthState: Find the value associated with labels like '6. State:' data type is text.\nYouthZip: Find the value associated with labels like '7. Zip:' data type is text.\nYouthTargetArea: Find the value associated with labels like '8. I currently live in the town, or city limits, of the following target area, check one:' data type is text.\nYouthEmail: Find the value associated with labels like '9: Email:' data type is text.\nYouthMainPhone: Find the value associated with labels like '10. Main phone:' data type is text.\nYouthOtherPhone: Find the value associated with labels like '11. Other phone (optional):' data type is text.\nAttendingHighSchool: Find the value associated with labels like '12. a. I am currently attending high school' data type is boolean.\nEnrolledHSE: Find the value associated with labels like '12. b. I am currently enrolled in a High School Equivalency (HSE) program' data type is boolean.\nEmployed: Find the value associated with labels like '13. Are any of the following four statements true? (I am currently unemployed, I was unemployed prior to completing this application, I do not have enough paid work, The work I have does not make use of my skills and training.)' data type is boolean.\nParentPermission: Find the value associated with labels like '14. I am 16 or 17 years old. I have my parent's or guardian's permission to submit this application' data type is boolean.\nParentFirstName: Find the value associated with labels like 'a. Parent/Guardian First name:' data type is text.\nParentLastName: Find the value associated with labels like 'b. Last name:' data type is text.\nParentPhone: Find the value associated with labels like 'c. Phone:' data type is text.\nWorkingPapers: Find the value associated with labels like '15. I have working papers' data type is boolean.\nAge18to24: Find the value associated with labels like '16. a. I am 18 to 24 years old' data type is boolean.\nEducationStatusTrue: Find the value associated with labels like '16. b. Are any of the following five statements true? (I have a high school diploma, I have a GED, I have an HSE diploma, I have completed a TASC exam, I am enrolled in a TASC program.)' data type is boolean.\nContactPreference: Find the value associated with labels like '17. I would like the Department of Labor to contact me by.' data type is boolean.\n\nFinal Output:\nreplace all \" \" with \"\"\nEnsure the final output is a valid JSON object matching the structure defined in the schema.`;\n\n\n\n\n\n",
+        "text": "=Extract the following data from the document and return it as a JSON object conforming to the provided schema.\n\nCRITICAL FORMATTING REQUIREMENTS:\n\nReplace any newline characters within extracted string values with a single space.\nIf a specific field cannot be found, return an empty space for that field.\nif the field is a boolean return Yes or No or a blank space do not use null replace all nulls with a blank space\nuse date format yyyy-mm-dd\nExtraction Instructions:\n\nif the 8850 form is not present apply a blank space for fields\n\tCompanyName: Find the value associated with labels like 'Company Name:' data type is text.\n\tCompanyEIN: Find the value associated with labels like 'Company EIN Number:' data type is text.\n\tApplicantName: Find the value associated with labels like 'Your name' data type is text.\n\tSSN: Find the value associated with labels like 'Social security number' data type is text.\n\tStreetAddress: Find the value associated with labels like 'Street address where you live' data type is text.\n\tCityTownStateZip: Find the value associated with labels like 'City or town, state, and ZIP code' data type is text.\n\tCounty: Find the value associated with labels like 'County' data type is text.\n\tTelephone: Find the value associated with labels like 'Telephone number' data type is text.\n\tDOB: Find the value associated with labels like 'If you are under age 40, enter your date of birth (month, day, year)' data type is date.\n\tConditionalCert: Find the value associated with labels like 'Check here if you received a conditional certification from the state workforce agency (SWA) or a participating local agency for the work opportunity credit.' data type is boolean.\n\tGeneralEligibility: Find the value associated with labels like 'Check here if any of the following statements apply to you' data type is boolean.\n\tUnemployedVeteran6Mo: Find the value associated with labels like 'Check here if you are a veteran and you were unemployed for a period or periods totaling at least 6 months during the past year.' data type is boolean.\n\tDisabledVeteran1Yr: Find the value associated with labels like 'Check here if you are a veteran entitled to compensation for a service-connected disability and you were discharged or released from active duty in the U.S. Armed Forces during the past year.' data type is boolean.\n\tDisabledVeteran6Mo: Find the value associated with labels like 'Check here if you are a veteran entitled to compensation for a service-connected disability and you were unemployed for a period or periods totaling at least 6 months during the past year.' data type is boolean.\n\tLongTermTANF: Find the value associated with labels like 'Check here if you are a member of a family that: Received TANF payments for at least the past 18 months; or Received TANF payments for any 18 months beginning after August 5, 1997...' data type is boolean.\n\tLongTermUnemployed: Find the value associated with labels like 'Check here if you are in a period of unemployment that is at least 27 consecutive weeks and for all or part of that period you received unemployment compensation.' data type is boolean.\n\tRehireStatus: Find the value associated with labels like 'Have you ever worked for this Employer before? Are you a Re-hire?' data type is boolean.\n\tUnderAge40: Find the value associated with labels like 'Are you under age 40?' data type is boolean.\n\tUnemployed27Weeks: Find the value associated with labels like 'Have you been unemployed for at least 27 weeks, and collected Unemployment Insurance?' data type is boolean.\n\tVeteranStatus: Find the value associated with labels like 'Are you a Veteran of the US Armed Forces?' data type is boolean.\n\tVeteranSNAP: Find the value associated with labels like 'Are you a member of a family that received SNAP (Food Stamps Benefits)?' data type is boolean.\n\tVeteranDischargedLastYear: Find the value associated with labels like 'Were you discharged from active duty within the last year?' data type is boolean.\n\tVeteranServiceDisability: Find the value associated with labels like 'Are you entitled to compensation for a service-connected disability?' data type is boolean.\n\tVeteranUnemployed6Months: Find the value associated with labels like 'Were you unemployed for a combined total of 6 months before you were hired?' data type is boolean.\n\tFamilySNAP: Find the value associated with labels like 'Have you, or your family, received SNAP benefits (Food Stamps) in the 6 months before you were hired? Or received SNAP Benefits for at least a 3-month period, but you are no longer receiving it?' data type is boolean.\n\tPrimaryRecipientSNAP: Find the value associated with labels like 'If yes to either question, enter Name of Primary Recipient:' data type is text.\n\tSNAPLocation: Find the value associated with labels like 'And City, State where benefits were received' data type is text.\n\tFamilyTANF: Find the value associated with labels like 'Are you a member of a family that received TANF assistance for at least 18 months before you were hired? Or, did your family stop being eligible for TANF assistance within 2 years before being hired...' data type is boolean.\n\tPrimaryRecipientTANF: Find the value associated with labels like 'If yes to either question, enter Name of Primary Recipient:' data type is text.\n\tTANFLocation: Find the value associated with labels like 'And City, State where benefits were received' data type is text.\n\tSSIBenefits: Find the value associated with labels like 'Did you receive Supplemental Security Income (SSI Benefits) for any month, ending within the 60 days, before you were hired?' data type is boolean.\n\tFelonyConviction: Find the value associated with labels like 'Were you convicted of a Felony during the year before you were hired?' data type is boolean.\n\tVocationalRehabReferral: Find the value associated with labels like 'A Vocational Rehab Agency approved by the state?' data type is boolean.\n\tEmploymentNetworkReferral: Find the value associated with labels like 'An Employment Network under the Ticket to Work Program?' data type is boolean.\n\tVeteranAffairsReferral: Find the value associated with labels like 'The Dept. of Veteran Affairs?' data type is boolean.\n\tEmploymentStartDate: Find the value associated with labels like 'Employment Start Date' data type is date.\n\tStartingWage: Find the value associated with labels like 'Starting Wage' data type is Currency. remove the dollar symbol and use number format and not a string \n\tPosition: Find the value associated with labels like 'Position' data type is text.\n\tApplicationDate: Find the value associated with labels like 'Today’s Date' data type is date.\n\nif the New York Youth Jobs Program: Youth Certification form is not present apply a blank space for fields\n\tYouthName: Find the value associated with labels like '1. Last name: First name: Middle initial:' data type is text.\n\tYouthBirthDate: Find the value associated with labels like '2. Birth date (mm/dd/yyyy):' data type is date.\n\tYouthSSN: Find the value associated with labels like '3. Social Security Number:' data type is text.\n\tYouthAddress: Find the value associated with labels like '4. Home address:' data type is text.\n\tYouthCity: Find the value associated with labels like '5. City:' data type is text.\n\tYouthState: Find the value associated with labels like '6. State:' data type is text.\n\tYouthZip: Find the value associated with labels like '7. Zip:' data type is text.\n\tYouthTargetArea: Find the value associated with labels like '8. I currently live in the town, or city limits, of the following target area, check one:' data type is text.\n\tYouthEmail: Find the value associated with labels like '9: Email:' data type is text.\n\tYouthMainPhone: Find the value associated with labels like '10. Main phone:' data type is text.\n\tYouthOtherPhone: Find the value associated with labels like '11. Other phone (optional):' data type is text.\n\tAttendingHighSchool: Find the value associated with labels like '12. a. I am currently attending high school' data type is boolean.\n\tEnrolledHSE: Find the value associated with labels like '12. b. I am currently enrolled in a High School Equivalency (HSE) program' data type is boolean.\n\tEmployed: Find the value associated with labels like '13. Are any of the following four statements true? (I am currently unemployed, I was unemployed prior to completing this application, I do not have enough paid work, The work I have does not make use of my skills and training.)' data type is boolean.\n\tParentPermission: Find the value associated with labels like '14. I am 16 or 17 years old. I have my parent's or guardian's permission to submit this application' data type is boolean.\n\tParentFirstName: Find the value associated with labels like 'a. Parent/Guardian First name:' data type is text.\n\tParentLastName: Find the value associated with labels like 'b. Last name:' data type is text.\n\tParentPhone: Find the value associated with labels like 'c. Phone:' data type is text.\n\tWorkingPapers: Find the value associated with labels like '15. I have working papers' data type is boolean.\n\tAge18to24: Find the value associated with labels like '16. a. I am 18 to 24 years old' data type is boolean.\n\tEducationStatusTrue: Find the value associated with labels like '16. b. Are any of the following five statements true? (I have a high school diploma, I have a GED, I have an HSE diploma, I have completed a TASC exam, I am enrolled in a TASC program.)' data type is boolean.\n\tContactPreference: Find the value associated with labels like '17. I would like the Department of Labor to contact me by.' data type is boolean.\n\nFinal Output:\nreplace all \" \" with \"\"\nEnsure the final output is a valid JSON object matching the structure defined in the schema.`;\n",
         "inputType": "binary",
         "simplify": false,
         "options": {}
@@ -161,7 +161,7 @@
       ],
       "id": "b778d85a-d57d-437e-9217-38e9ef52d37c",
       "name": "Upload Document",
-      "retryOnFail": false,
+      "retryOnFail": true,
       "credentials": {
         "zohoOAuth2Api": {
           "id": "ctc33HbS8GvHZ3iA",
@@ -171,6 +171,7 @@
     },
     {
       "parameters": {
+        "authentication": "oAuth2",
         "path": "=/CreditForce LLC/Documents/Platinum HC/2026/2026 WOTC Forms/{{ $('get JSON').item.json.ApplicantName }}.pdf",
         "binaryData": true
       },
@@ -183,8 +184,8 @@
       "id": "1ef7a653-4de4-44c4-9cf5-07dda505627c",
       "name": "Upload a file",
       "credentials": {
-        "dropboxApi": {
-          "id": "ByTMMLRlyaiaH3pX",
+        "dropboxOAuth2Api": {
+          "id": "hjJyqSHFv57nO4i2",
           "name": "Dropbox account 2"
         }
       }
@@ -347,79 +348,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "get JSON": [
-      {
-        "json": {
-          "CompanyName": "",
-          "CompanyEIN": "",
-          "ApplicantName": "Cyrae Frohlich francell Frohlich",
-          "SSN": "517391085",
-          "StreetAddress": "3607 Spring Wheat Lane apt 107",
-          "CityTownStateZip": "Billings, MT 59102",
-          "County": "Yellowstone",
-          "Telephone": "4065349741",
-          "DOB": "2003-12-25",
-          "ConditionalCert": "No",
-          "GeneralEligibility": "No",
-          "UnemployedVeteran6Mo": "No",
-          "DisabledVeteran1Yr": "No",
-          "DisabledVeteran6Mo": "No",
-          "LongTermTANF": "No",
-          "LongTermUnemployed": "No",
-          "RehireStatus": "No",
-          "UnderAge40": "Yes",
-          "Unemployed27Weeks": "No",
-          "VeteranStatus": "No",
-          "VeteranSNAP": "No",
-          "VeteranDischargedLastYear": "No",
-          "VeteranServiceDisability": "No",
-          "VeteranUnemployed6Months": "No",
-          "FamilySNAP": "No",
-          "PrimaryRecipientSNAP": "",
-          "SNAPLocation": "",
-          "FamilyTANF": "No",
-          "PrimaryRecipientTANF": "",
-          "TANFLocation": "",
-          "SSIBenefits": "No",
-          "FelonyConviction": "No",
-          "VocationalRehabReferral": "No",
-          "EmploymentNetworkReferral": "No",
-          "VeteranAffairsReferral": "No",
-          "EmploymentStartDate": "2026-04-28",
-          "StartingWage": 23,
-          "Position": "",
-          "ApplicationDate": "2026-04-28",
-          "YouthName": "Cyrae Frohlich",
-          "YouthBirthDate": "2003-12-25",
-          "YouthSSN": "517391085",
-          "YouthAddress": "3607 Spring Wheat Lane apt 107",
-          "YouthCity": "Billings",
-          "YouthState": "MT",
-          "YouthZip": "59102",
-          "YouthTargetArea": "",
-          "YouthEmail": "cyraefrohlich@gmail.com",
-          "YouthMainPhone": "4065349741",
-          "YouthOtherPhone": "",
-          "AttendingHighSchool": "",
-          "EnrolledHSE": "",
-          "Employed": "",
-          "ParentPermission": "",
-          "ParentFirstName": "",
-          "ParentLastName": "",
-          "ParentPhone": "",
-          "WorkingPapers": "",
-          "Age18to24": "Yes",
-          "EducationStatusTrue": "",
-          "ContactPreference": ""
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ]
-  },
-  "versionId": "807846fd-59ef-47a3-bf37-b72b0a684e92",
+  "pinData": {},
+  "versionId": "316ae94d-964b-4ec0-a52e-33698f75ec95",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
