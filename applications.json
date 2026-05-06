@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-05T19:32:42.068Z",
+  "updatedAt": "2026-05-06T16:34:25.408Z",
   "createdAt": "2026-05-01T16:49:49.853Z",
   "id": "StOGDuubavpou92g",
   "name": "Applications",
@@ -19,7 +19,7 @@
       "typeVersion": 2.1,
       "position": [
         0,
-        -240
+        -336
       ],
       "id": "7846abac-b36d-4f87-ab43-46daf02b2d6a",
       "name": "Email Trigger (IMAP)",
@@ -39,7 +39,7 @@
           "mode": "list",
           "cachedResultName": "models/gemini-flash-lite-latest"
         },
-        "text": "=Extract the following data from the document and return it as a JSON object conforming to the provided schema.\n\nCRITICAL FORMATTING REQUIREMENTS:\n\nReplace any newline characters within extracted string values with a single space.\nIf a specific field cannot be found, return an empty space for that field.\nif the field is a boolean return Yes or No or a blank space do not use null replace all nulls with a blank space\nuse date format yyyy-mm-dd\nExtraction Instructions:\n\nif the 8850 form is not present apply a blank space for fields\n\tCompanyName: Find the value associated with labels like 'Company Name:' data type is text.\n\tCompanyEIN: Find the value associated with labels like 'Company EIN Number:' data type is text.\n\tApplicantName: Find the value associated with labels like 'Your name' data type is text.\n\tSSN: Find the value associated with labels like 'Social security number' data type is text. remove all dashs\n\tStreetAddress: Find the value associated with labels like 'Street address where you live' data type is text.\n\n\tcity: Find the value associated with labels like 'City or town, state, and ZIP code' data type is text. extract the city \n\tstate: Find the value associated with labels like 'City or town, state, and ZIP code' data type is text. extract the state\n\tzip: Find the value associated with labels like 'City or town, state, and ZIP code' data type is text. extract the zipcode\n\n\tCounty: Find the value associated with labels like 'County' data type is text.\n\tTelephone: Find the value associated with labels like 'Telephone number' data type is text.\n\tDOB: Find the value associated with labels like 'If you are under age 40, enter your date of birth (month, day, year)' data type is date.\n\tConditionalCert: Find the value associated with labels like 'Check here if you received a conditional certification from the state workforce agency (SWA) or a participating local agency for the work opportunity credit.' data type is boolean.\n\tGeneralEligibility: Find the value associated with labels like 'Check here if any of the following statements apply to you' data type is boolean.\n\tUnemployedVeteran6Mo: Find the value associated with labels like 'Check here if you are a veteran and you were unemployed for a period or periods totaling at least 6 months during the past year.' data type is boolean.\n\tDisabledVeteran1Yr: Find the value associated with labels like 'Check here if you are a veteran entitled to compensation for a service-connected disability and you were discharged or released from active duty in the U.S. Armed Forces during the past year.' data type is boolean.\n\tDisabledVeteran6Mo: Find the value associated with labels like 'Check here if you are a veteran entitled to compensation for a service-connected disability and you were unemployed for a period or periods totaling at least 6 months during the past year.' data type is boolean.\n\tLongTermTANF: Find the value associated with labels like 'Check here if you are a member of a family that: Received TANF payments for at least the past 18 months; or Received TANF payments for any 18 months beginning after August 5, 1997...' data type is boolean.\n\tLongTermUnemployed: Find the value associated with labels like 'Check here if you are in a period of unemployment that is at least 27 consecutive weeks and for all or part of that period you received unemployment compensation.' data type is boolean.\n\tRehireStatus: Find the value associated with labels like 'Have you ever worked for this Employer before? Are you a Re-hire?' data type is boolean.\n\tUnderAge40: Find the value associated with labels like 'Are you under age 40?' data type is boolean.\n\tUnemployed27Weeks: Find the value associated with labels like 'Have you been unemployed for at least 27 weeks, and collected Unemployment Insurance?' data type is boolean.\n\tVeteranStatus: Find the value associated with labels like 'Are you a Veteran of the US Armed Forces?' data type is boolean.\n\tVeteranSNAP: Find the value associated with labels like 'Are you a member of a family that received SNAP (Food Stamps Benefits)?' data type is boolean.\n\tVeteranDischargedLastYear: Find the value associated with labels like 'Were you discharged from active duty within the last year?' data type is boolean.\n\tVeteranServiceDisability: Find the value associated with labels like 'Are you entitled to compensation for a service-connected disability?' data type is boolean.\n\tVeteranUnemployed6Months: Find the value associated with labels like 'Were you unemployed for a combined total of 6 months before you were hired?' data type is boolean.\n\tFamilySNAP: Find the value associated with labels like 'Have you, or your family, received SNAP benefits (Food Stamps) in the 6 months before you were hired? Or received SNAP Benefits for at least a 3-month period, but you are no longer receiving it?' data type is boolean.\n\tPrimaryRecipientSNAP: Find the value associated with labels like 'If yes to either question, enter Name of Primary Recipient:' data type is text.\n\tSNAPLocation: Find the value associated with labels like 'And City, State where benefits were received' data type is text.\n\tFamilyTANF: Find the value associated with labels like 'Are you a member of a family that received TANF assistance for at least 18 months before you were hired? Or, did your family stop being eligible for TANF assistance within 2 years before being hired...' data type is boolean.\n\tPrimaryRecipientTANF: Find the value associated with labels like 'If yes to either question, enter Name of Primary Recipient:' data type is text.\n\tTANFLocation: Find the value associated with labels like 'And City, State where benefits were received' data type is text.\n\tSSIBenefits: Find the value associated with labels like 'Did you receive Supplemental Security Income (SSI Benefits) for any month, ending within the 60 days, before you were hired?' data type is boolean.\n\tFelonyConviction: Find the value associated with labels like 'Were you convicted of a Felony during the year before you were hired?' data type is boolean.\n\tVocationalRehabReferral: Find the value associated with labels like 'A Vocational Rehab Agency approved by the state?' data type is boolean.\n\tEmploymentNetworkReferral: Find the value associated with labels like 'An Employment Network under the Ticket to Work Program?' data type is boolean.\n\tVeteranAffairsReferral: Find the value associated with labels like 'The Dept. of Veteran Affairs?' data type is boolean.\n\tEmploymentStartDate: Find the value associated with labels like 'Employment Start Date' data type is date.\n\tStartingWage: Find the value associated with labels like 'Starting Wage' data type is Currency. remove the dollar symbol and use number format and not a string \n\tPosition: Find the value associated with labels like 'Position' data type is text.\n\tApplicationDate: Find the value associated with labels like 'Today’s Date' data type is date.\n\nif the New York Youth Jobs Program: Youth Certification form is not present apply a blank space for fields\n\tYouthName: Find the value associated with labels like '1. Last name: First name: Middle initial:' data type is text.\n\tYouthBirthDate: Find the value associated with labels like '2. Birth date (mm/dd/yyyy):' data type is date.\n\tYouthSSN: Find the value associated with labels like '3. Social Security Number:' data type is text. remove all dashs\n\tYouthAddress: Find the value associated with labels like '4. Home address:' data type is text.\n\tYouthCity: Find the value associated with labels like '5. City:' data type is text.\n\tYouthState: Find the value associated with labels like '6. State:' data type is text.\n\tYouthZip: Find the value associated with labels like '7. Zip:' data type is text.\n\tYouthTargetArea: Find the value associated with labels like '8. I currently live in the town, or city limits, of the following target area, check one:' data type is text.\n\tYouthEmail: Find the value associated with labels like '9: Email:' data type is text.\n\tYouthMainPhone: Find the value associated with labels like '10. Main phone:' data type is text.\n\tYouthOtherPhone: Find the value associated with labels like '11. Other phone (optional):' data type is text.\n\tAttendingHighSchool: Find the value associated with labels like '12. a. I am currently attending high school' data type is boolean.\n\tEnrolledHSE: Find the value associated with labels like '12. b. I am currently enrolled in a High School Equivalency (HSE) program' data type is boolean.\n\tEmployed: Find the value associated with labels like '13. Are any of the following four statements true? (I am currently unemployed, I was unemployed prior to completing this application, I do not have enough paid work, The work I have does not make use of my skills and training.)' data type is boolean.\n\tParentPermission: Find the value associated with labels like '14. I am 16 or 17 years old. I have my parent's or guardian's permission to submit this application' data type is boolean.\n\tParentFirstName: Find the value associated with labels like 'a. Parent/Guardian First name:' data type is text.\n\tParentLastName: Find the value associated with labels like 'b. Last name:' data type is text.\n\tParentPhone: Find the value associated with labels like 'c. Phone:' data type is text.\n\tWorkingPapers: Find the value associated with labels like '15. I have working papers' data type is boolean.\n\tAge18to24: Find the value associated with labels like '16. a. I am 18 to 24 years old' data type is boolean.\n\tEducationStatusTrue: Find the value associated with labels like '16. b. Are any of the following five statements true? (I have a high school diploma, I have a GED, I have an HSE diploma, I have completed a TASC exam, I am enrolled in a TASC program.)' data type is boolean.\n\tContactPreference: Find the value associated with labels like '17. I would like the Department of Labor to contact me by.' data type is boolean.\n\nFinal Output:\nreplace all \" \" with \"\"\nEnsure the final output is a valid JSON object matching the structure defined in the schema.`;\n",
+        "text": "=Extract the following data from the document and return it as a JSON object conforming to the provided schema.\n\nCRITICAL FORMATTING REQUIREMENTS:\n\nReplace any newline characters within extracted string values with a single space.\nIf a specific field cannot be found, return an empty space for that field.\nif the field is a boolean return Yes or No or a blank space do not use null replace all nulls with a blank space\nuse date format yyyy-mm-dd\nExtraction Instructions:\n\nif the 8850 form is not present apply a blank space for fields\n\tCompanyName: Find the value associated with labels like 'Company Name:' data type is text.\n\tCompanyEIN: Find the value associated with labels like 'Company EIN Number:' data type is text.\n\tApplicantName: Find the value associated with labels like 'Your name' data type is text. add a space between the first middle and last name\n\tSSN: Find the value associated with labels like 'Social security number' data type is text. remove all dashs\n\tStreetAddress: Find the value associated with labels like 'Street address where you live' data type is text.\n\n\tcity: Find the value associated with labels like 'City or town, state, and ZIP code' data type is text. extract the city \n\tstate: Find the value associated with labels like 'City or town, state, and ZIP code' data type is text. extract the state\n\tzip: Find the value associated with labels like 'City or town, state, and ZIP code' data type is text. extract the zipcode\n\n\tCounty: Find the value associated with labels like 'County' data type is text.\n\tTelephone: Find the value associated with labels like 'Telephone number' data type is text.\n\tDOB: Find the value associated with labels like 'If you are under age 40, enter your date of birth (month, day, year)' data type is date.\n\tConditionalCert: Find the value associated with labels like 'Check here if you received a conditional certification from the state workforce agency (SWA) or a participating local agency for the work opportunity credit.' data type is boolean.\n\tGeneralEligibility: Find the value associated with labels like 'Check here if any of the following statements apply to you' data type is boolean.\n\tUnemployedVeteran6Mo: Find the value associated with labels like 'Check here if you are a veteran and you were unemployed for a period or periods totaling at least 6 months during the past year.' data type is boolean.\n\tDisabledVeteran1Yr: Find the value associated with labels like 'Check here if you are a veteran entitled to compensation for a service-connected disability and you were discharged or released from active duty in the U.S. Armed Forces during the past year.' data type is boolean.\n\tDisabledVeteran6Mo: Find the value associated with labels like 'Check here if you are a veteran entitled to compensation for a service-connected disability and you were unemployed for a period or periods totaling at least 6 months during the past year.' data type is boolean.\n\tLongTermTANF: Find the value associated with labels like 'Check here if you are a member of a family that: Received TANF payments for at least the past 18 months; or Received TANF payments for any 18 months beginning after August 5, 1997...' data type is boolean.\n\tLongTermUnemployed: Find the value associated with labels like 'Check here if you are in a period of unemployment that is at least 27 consecutive weeks and for all or part of that period you received unemployment compensation.' data type is boolean.\n\tRehireStatus: Find the value associated with labels like 'Have you ever worked for this Employer before? Are you a Re-hire?' data type is boolean.\n\tUnderAge40: Find the value associated with labels like 'Are you under age 40?' data type is boolean.\n\tUnemployed27Weeks: Find the value associated with labels like 'Have you been unemployed for at least 27 weeks, and collected Unemployment Insurance?' data type is boolean.\n\tVeteranStatus: Find the value associated with labels like 'Are you a Veteran of the US Armed Forces?' data type is boolean.\n\tVeteranSNAP: Find the value associated with labels like 'Are you a member of a family that received SNAP (Food Stamps Benefits)?' data type is boolean.\n\tVeteranDischargedLastYear: Find the value associated with labels like 'Were you discharged from active duty within the last year?' data type is boolean.\n\tVeteranServiceDisability: Find the value associated with labels like 'Are you entitled to compensation for a service-connected disability?' data type is boolean.\n\tVeteranUnemployed6Months: Find the value associated with labels like 'Were you unemployed for a combined total of 6 months before you were hired?' data type is boolean.\n\tFamilySNAP: Find the value associated with labels like 'Have you, or your family, received SNAP benefits (Food Stamps) in the 6 months before you were hired? Or received SNAP Benefits for at least a 3-month period, but you are no longer receiving it?' data type is boolean.\n\tPrimaryRecipientSNAP: Find the value associated with labels like 'If yes to either question, enter Name of Primary Recipient:' data type is text.\n\tSNAPLocation: Find the value associated with labels like 'And City, State where benefits were received' data type is text.\n\tFamilyTANF: Find the value associated with labels like 'Are you a member of a family that received TANF assistance for at least 18 months before you were hired? Or, did your family stop being eligible for TANF assistance within 2 years before being hired...' data type is boolean.\n\tPrimaryRecipientTANF: Find the value associated with labels like 'If yes to either question, enter Name of Primary Recipient:' data type is text.\n\tTANFLocation: Find the value associated with labels like 'And City, State where benefits were received' data type is text.\n\tSSIBenefits: Find the value associated with labels like 'Did you receive Supplemental Security Income (SSI Benefits) for any month, ending within the 60 days, before you were hired?' data type is boolean.\n\tFelonyConviction: Find the value associated with labels like 'Were you convicted of a Felony during the year before you were hired?' data type is boolean.\n\tVocationalRehabReferral: Find the value associated with labels like 'A Vocational Rehab Agency approved by the state?' data type is boolean.\n\tEmploymentNetworkReferral: Find the value associated with labels like 'An Employment Network under the Ticket to Work Program?' data type is boolean.\n\tVeteranAffairsReferral: Find the value associated with labels like 'The Dept. of Veteran Affairs?' data type is boolean.\n\tEmploymentStartDate: Find the value associated with labels like 'Employment Start Date' data type is date.\n\tStartingWage: Find the value associated with labels like 'Starting Wage' data type is Currency. remove the dollar symbol and use number format and not a string \n\tPosition: Find the value associated with labels like 'Position' data type is text.\n\tApplicationDate: Find the value associated with labels like 'Today’s Date' data type is date.\n\nif the New York Youth Jobs Program: Youth Certification form is not present apply a blank space for fields\n\tYouthName: Find the value associated with labels like '1. Last name: First name: Middle initial:' data type is text.\n\tYouthBirthDate: Find the value associated with labels like '2. Birth date (mm/dd/yyyy):' data type is date.\n\tYouthSSN: Find the value associated with labels like '3. Social Security Number:' data type is text. remove all dashs\n\tYouthAddress: Find the value associated with labels like '4. Home address:' data type is text.\n\tYouthCity: Find the value associated with labels like '5. City:' data type is text.\n\tYouthState: Find the value associated with labels like '6. State:' data type is text.\n\tYouthZip: Find the value associated with labels like '7. Zip:' data type is text.\n\tYouthTargetArea: Find the value associated with labels like '8. I currently live in the town, or city limits, of the following target area, check one:' data type is text.\n\tYouthEmail: Find the value associated with labels like '9: Email:' data type is text.\n\tYouthMainPhone: Find the value associated with labels like '10. Main phone:' data type is text.\n\tYouthOtherPhone: Find the value associated with labels like '11. Other phone (optional):' data type is text.\n\tAttendingHighSchool: Find the value associated with labels like '12. a. I am currently attending high school' data type is boolean.\n\tEnrolledHSE: Find the value associated with labels like '12. b. I am currently enrolled in a High School Equivalency (HSE) program' data type is boolean.\n\tEmployed: Find the value associated with labels like '13. Are any of the following four statements true? (I am currently unemployed, I was unemployed prior to completing this application, I do not have enough paid work, The work I have does not make use of my skills and training.)' data type is boolean.\n\tParentPermission: Find the value associated with labels like '14. I am 16 or 17 years old. I have my parent's or guardian's permission to submit this application' data type is boolean.\n\tParentFirstName: Find the value associated with labels like 'a. Parent/Guardian First name:' data type is text.\n\tParentLastName: Find the value associated with labels like 'b. Last name:' data type is text.\n\tParentPhone: Find the value associated with labels like 'c. Phone:' data type is text.\n\tWorkingPapers: Find the value associated with labels like '15. I have working papers' data type is boolean.\n\tAge18to24: Find the value associated with labels like '16. a. I am 18 to 24 years old' data type is boolean.\n\tEducationStatusTrue: Find the value associated with labels like '16. b. Are any of the following five statements true? (I have a high school diploma, I have a GED, I have an HSE diploma, I have completed a TASC exam, I am enrolled in a TASC program.)' data type is boolean.\n\tContactPreference: Find the value associated with labels like '17. I would like the Department of Labor to contact me by.' data type is boolean.\n\nFinal Output:\nreplace all \" \" with \"\"\nEnsure the final output is a valid JSON object matching the structure defined in the schema.`;\n",
         "inputType": "binary",
         "simplify": false,
         "options": {}
@@ -48,7 +48,7 @@
       "typeVersion": 1.2,
       "position": [
         448,
-        -240
+        -336
       ],
       "id": "b7c54279-f37b-4e99-ae3d-13ef2f320d31",
       "name": "Analyze document",
@@ -70,7 +70,7 @@
       "typeVersion": 2,
       "position": [
         672,
-        -240
+        -336
       ],
       "id": "96be0e97-124e-492f-b3d4-0962b4f5953d",
       "name": "get JSON"
@@ -85,7 +85,7 @@
           "parameters": [
             {
               "name": "criteria",
-              "value": "(Account_Name:equals:Platinum Home Health Care Inc)"
+              "value": "=(Account_Name:equals:'{{ $('get account name').item.json.accountName }}')"
             }
           ]
         },
@@ -94,11 +94,12 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        896,
-        -240
+        1120,
+        -336
       ],
       "id": "d39b2908-835c-4e05-8d46-5cf711b79c92",
       "name": "zoho: get account",
+      "retryOnFail": false,
       "credentials": {
         "zohoOAuth2Api": {
           "id": "AJFkRsSMnIXWkGmn",
@@ -114,14 +115,14 @@
         "nodeCredentialType": "zohoOAuth2Api",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"data\": [\n    {\n      \"Account\": \"{{ $json.data[0].id }}\",\n      \"Address_City\": \"{{ $('get JSON').item.json.city }}\",\n      \"Address_Country_Region\": \"United States\",\n      \"Address_Flat_House_No_Building_Apartment_Name\": \"\",\n      \"Address_State_Province\": \"{{ $('get JSON').item.json.state }}\",\n      \"Address_Street_Address\": \"{{ $('get JSON').item.json.StreetAddress }}\",\n      \"Address_Zip_Postal_Code\": \"{{ $('get JSON').item.json.zip }}\",\n      \"Age_18_to_24\": \"{{ $('get JSON').item.json.Age18to24 }}\",\n      \"Application_Date\":\"{{ $('get JSON').item.json.ApplicationDate }}\",\n      \"Application_Document\":\"\",\n      \"Name\":\"{{ $('get JSON').item.json.ApplicantName }}\",\n      \"Attending_High_School\":\"{{ $('get JSON').item.json.AttendingHighSchool }}\",\n      \"Conditional_Certification\":\"{{ $('get JSON').item.json.ConditionalCert }}\",\n      \"Disabled_Veteran_1_Year\":\"{{ $('get JSON').item.json.DisabledVeteran1Yr }}\",\n      \"Disabled_Veteran_6_Month\":\"{{ $('get JSON').item.json.DisabledVeteran6Mo }}\",\n      \"DOB\":\"{{ $('get JSON').item.json.DOB }}\",\n      \"DoL_Contact_Consent\":\"{{ $('get JSON').item.json.ContactPreference }}\",\n      \"Email\":\"\",\n      \"Email_Opt_Out\":\"\",\n      \"Employed\":\"{{ $('get JSON').item.json.Employed }}\",\n      \"Employment_Network_Referral\":\"{{ $('get JSON').item.json.EmploymentNetworkReferral }}\",\n      \"Employment_Start_Date\":\"{{ $('get JSON').item.json.EmploymentStartDate }}\",\n      \"Enrolled_HSE\":\"{{ $('get JSON').item.json.EnrolledHSE }}\",\n      \"FamilySNAP\":\"{{ $('get JSON').item.json.FamilySNAP }}\",\n      \"Family_TANF\":\"{{ $('get JSON').item.json.FamilyTANF }}\",\n      \"Felony_Conviction\":\"{{ $('get JSON').item.json.FelonyConviction }}\",\n      \"General_Eligibility\":\"{{ $('get JSON').item.json.GeneralEligibility }}\",\n      \"HasEducation\":\"{{ $('get JSON').item.json.EducationStatusTrue }}\",\n      \"Long_Term_TANF\":\"{{ $('get JSON').item.json.LongTermTANF }}\",\n      \"Long_Term_Unemployed_Long_Term_Unemployed\":\"{{ $('get JSON').item.json.LongTermUnemployed }}\",\n      \"Parent_First_Name\":\"{{ $('get JSON').item.json.ParentFirstName }}\",\n      \"Parent_Last_Name\":\"{{ $('get JSON').item.json.ParentLastName }}\",\n      \"Parent_Permission\":\"{{ $('get JSON').item.json.ParentPermission }}\",\n      \"Parent_Phone\":\"{{ $('get JSON').item.json.ParentPhone }}\",\n      \"Phone\":\"{{ $('get JSON').item.json.Telephone }}\",\n      \"Position\":\"{{ $('get JSON').item.json.Position }}\",\n      \"Rehire\":\"{{ $('get JSON').item.json.RehireStatus }}\",\n      \"Secondary_Email\":\"\",\n      \"SNAP_Location\":\"{{ $('get JSON').item.json.SNAPLocation }}\",\n      \"SNAP_Primary_Recipient\":\"\",\n      \"Social_security\":\"{{ $('get JSON').item.json.SSN }}\",\n      \"SSI_Benefits\":\"{{ $('get JSON').item.json.SSIBenefits }}\",\n      \"Starting_Wage\":{{ $('get JSON').item.json.StartingWage }},\n      \"TANF_Location\":\"{{ $('get JSON').item.json.TANFLocation }}\",\n      \"TANF_Primary_Recipient\":\"\",\n      \"Under_Age_40\":\"{{ $('get JSON').item.json.UnderAge40 }}\",\n      \"Unemployed_27_Weeks\":\"{{ $('get JSON').item.json.Unemployed27Weeks }}\",\n      \"Unemployed_Veteran_6_Month\":\"{{ $('get JSON').item.json.UnemployedVeteran6Mo }}\",\n      \"Veteran\":\"{{ $('get JSON').item.json.VeteranStatus }}\",\n      \"Veteran_Affairs_Referral\":\"{{ $('get JSON').item.json.VeteranAffairsReferral }}\",\n      \"Veteran_Discharged_Last_Year\":\"{{ $('get JSON').item.json.VeteranDischargedLastYear }}\",\n      \"Veteran_Service_Disability\":\"{{ $('get JSON').item.json.VeteranServiceDisability }}\",\n      \"Veteran_SNAP\":\"{{ $('get JSON').item.json.VeteranSNAP }}\",\n      \"Veteran_Unemployed_6_Months\":\"{{ $('get JSON').item.json.VeteranUnemployed6Months }}\",\n      \"Vocational_Rehab_Referral\":\"{{ $('get JSON').item.json.VocationalRehabReferral }}\",\n      \"Working_Papers\":\"{{ $('get JSON').item.json.WorkingPapers }}\",\n      \"Youth_Address_City\":\"{{ $('get JSON').item.json.YouthCity }}\",\n      \"Youth_Address_Country_Region\":\"USA\",\n      \"Youth_Address_Flat_House_No_Building_Apartment_Nam\":\"\",\n      \"Youth_Address_State_Province\":\"{{ $('get JSON').item.json.YouthState }}\",\n      \"Youth_Address_Street_Address\":\"{{ $('get JSON').item.json.YouthAddress }}\",\n      \"Youth_Address_Zip_Postal_Code\":\"{{ $('get JSON').item.json.YouthZip }}\",\n      \"Youth_DOB\":\"{{ $('get JSON').item.json.YouthBirthDate }}\",\n      \"Youth_Email\":\"{{ $('get JSON').item.json.YouthEmail }}\",\n      \"Youth_Main_Phone\":\"{{ $('get JSON').item.json.YouthMainPhone }}\",\n      \"Youth_Name\":\"{{ $('get JSON').item.json.YouthName }}\",\n      \"Youth_Other_Phone\":\"{{ $('get JSON').item.json.YouthOtherPhone }}\",\n      \"Youth_Social_security\":\"{{ $('get JSON').item.json.YouthSSN }}\",\n      \"Youth_Target_Area\":\"{{ $('get JSON').item.json.YouthTargetArea }}\"\n    }\n  ]\n}",
+        "jsonBody": "={\n  \"data\": [\n    {\n      \"Account\": \"{{ $('Create an account').isExecuted ?   $('Create an account').item.json.id : $('zoho: get account').item.json.data[0].id}}\",\n      \"Address_City\": \"{{ $('get JSON').item.json.city }}\",\n      \"Address_Country_Region\": \"United States\",\n      \"Address_Flat_House_No_Building_Apartment_Name\": \"\",\n      \"Address_State_Province\": \"{{ $('get JSON').item.json.state }}\",\n      \"Address_Street_Address\": \"{{ $('get JSON').item.json.StreetAddress }}\",\n      \"Address_Zip_Postal_Code\": \"{{ $('get JSON').item.json.zip }}\",\n      \"Age_18_to_24\": \"{{ $('get JSON').item.json.Age18to24 }}\",\n      \"Application_Date\":\"{{ $('get JSON').item.json.ApplicationDate }}\",\n      \"Application_Document\":\"\",\n      \"Name\":\"{{ $('get JSON').item.json.ApplicantName }}\",\n      \"Attending_High_School\":\"{{ $('get JSON').item.json.AttendingHighSchool }}\",\n      \"Conditional_Certification\":\"{{ $('get JSON').item.json.ConditionalCert }}\",\n      \"Disabled_Veteran_1_Year\":\"{{ $('get JSON').item.json.DisabledVeteran1Yr }}\",\n      \"Disabled_Veteran_6_Month\":\"{{ $('get JSON').item.json.DisabledVeteran6Mo }}\",\n      \"DOB\":\"{{ $('get JSON').item.json.DOB }}\",\n      \"DoL_Contact_Consent\":\"{{ $('get JSON').item.json.ContactPreference }}\",\n      \"Email\":\"\",\n      \"Email_Opt_Out\":\"\",\n      \"Employed\":\"{{ $('get JSON').item.json.Employed }}\",\n      \"Employment_Network_Referral\":\"{{ $('get JSON').item.json.EmploymentNetworkReferral }}\",\n      \"Employment_Start_Date\":\"{{ $('get JSON').item.json.EmploymentStartDate }}\",\n      \"Enrolled_HSE\":\"{{ $('get JSON').item.json.EnrolledHSE }}\",\n      \"FamilySNAP\":\"{{ $('get JSON').item.json.FamilySNAP }}\",\n      \"Family_TANF\":\"{{ $('get JSON').item.json.FamilyTANF }}\",\n      \"Felony_Conviction\":\"{{ $('get JSON').item.json.FelonyConviction }}\",\n      \"General_Eligibility\":\"{{ $('get JSON').item.json.GeneralEligibility }}\",\n      \"HasEducation\":\"{{ $('get JSON').item.json.EducationStatusTrue }}\",\n      \"Long_Term_TANF\":\"{{ $('get JSON').item.json.LongTermTANF }}\",\n      \"Long_Term_Unemployed_Long_Term_Unemployed\":\"{{ $('get JSON').item.json.LongTermUnemployed }}\",\n      \"Parent_First_Name\":\"{{ $('get JSON').item.json.ParentFirstName }}\",\n      \"Parent_Last_Name\":\"{{ $('get JSON').item.json.ParentLastName }}\",\n      \"Parent_Permission\":\"{{ $('get JSON').item.json.ParentPermission }}\",\n      \"Parent_Phone\":\"{{ $('get JSON').item.json.ParentPhone }}\",\n      \"Phone\":\"{{ $('get JSON').item.json.Telephone }}\",\n      \"Position\":\"{{ $('get JSON').item.json.Position }}\",\n      \"Rehire\":\"{{ $('get JSON').item.json.RehireStatus }}\",\n      \"Secondary_Email\":\"\",\n      \"SNAP_Location\":\"{{ $('get JSON').item.json.SNAPLocation }}\",\n      \"SNAP_Primary_Recipient\":\"\",\n      \"Social_security\":\"{{ $('get JSON').item.json.SSN }}\",\n      \"SSI_Benefits\":\"{{ $('get JSON').item.json.SSIBenefits }}\",\n      \"Starting_Wage\":{{ $('get JSON').item.json.StartingWage }},\n      \"TANF_Location\":\"{{ $('get JSON').item.json.TANFLocation }}\",\n      \"TANF_Primary_Recipient\":\"\",\n      \"Under_Age_40\":\"{{ $('get JSON').item.json.UnderAge40 }}\",\n      \"Unemployed_27_Weeks\":\"{{ $('get JSON').item.json.Unemployed27Weeks }}\",\n      \"Unemployed_Veteran_6_Month\":\"{{ $('get JSON').item.json.UnemployedVeteran6Mo }}\",\n      \"Veteran\":\"{{ $('get JSON').item.json.VeteranStatus }}\",\n      \"Veteran_Affairs_Referral\":\"{{ $('get JSON').item.json.VeteranAffairsReferral }}\",\n      \"Veteran_Discharged_Last_Year\":\"{{ $('get JSON').item.json.VeteranDischargedLastYear }}\",\n      \"Veteran_Service_Disability\":\"{{ $('get JSON').item.json.VeteranServiceDisability }}\",\n      \"Veteran_SNAP\":\"{{ $('get JSON').item.json.VeteranSNAP }}\",\n      \"Veteran_Unemployed_6_Months\":\"{{ $('get JSON').item.json.VeteranUnemployed6Months }}\",\n      \"Vocational_Rehab_Referral\":\"{{ $('get JSON').item.json.VocationalRehabReferral }}\",\n      \"Working_Papers\":\"{{ $('get JSON').item.json.WorkingPapers }}\",\n      \"Youth_Address_City\":\"{{ $('get JSON').item.json.YouthCity }}\",\n      \"Youth_Address_Country_Region\":\"USA\",\n      \"Youth_Address_Flat_House_No_Building_Apartment_Nam\":\"\",\n      \"Youth_Address_State_Province\":\"{{ $('get JSON').item.json.YouthState }}\",\n      \"Youth_Address_Street_Address\":\"{{ $('get JSON').item.json.YouthAddress }}\",\n      \"Youth_Address_Zip_Postal_Code\":\"{{ $('get JSON').item.json.YouthZip }}\",\n      \"Youth_DOB\":\"{{ $('get JSON').item.json.YouthBirthDate }}\",\n      \"Youth_Email\":\"{{ $('get JSON').item.json.YouthEmail }}\",\n      \"Youth_Main_Phone\":\"{{ $('get JSON').item.json.YouthMainPhone }}\",\n      \"Youth_Name\":\"{{ $('get JSON').item.json.YouthName }}\",\n      \"Youth_Other_Phone\":\"{{ $('get JSON').item.json.YouthOtherPhone }}\",\n      \"Youth_Social_security\":\"{{ $('get JSON').item.json.YouthSSN }}\",\n      \"Youth_Target_Area\":\"{{ $('get JSON').item.json.YouthTargetArea }}\"\n    }\n  ]\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1120,
-        -240
+        1792,
+        -336
       ],
       "id": "78577922-4838-42cf-be32-7f7a4104e6a9",
       "name": "Create Application",
@@ -156,8 +157,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1568,
-        -240
+        2240,
+        -336
       ],
       "id": "b778d85a-d57d-437e-9217-38e9ef52d37c",
       "name": "Upload Document",
@@ -178,8 +179,8 @@
       "type": "n8n-nodes-base.dropbox",
       "typeVersion": 1,
       "position": [
-        2016,
-        -240
+        2688,
+        -336
       ],
       "id": "1ef7a653-4de4-44c4-9cf5-07dda505627c",
       "name": "Upload a file",
@@ -197,11 +198,87 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1344,
-        -240
+        2016,
+        -336
       ],
       "id": "63427535-e655-4eb2-a445-9de85f34373e",
       "name": "get attachments 2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the \n\nlet results = [];\nfor (const item of $input.all()) {\n  results.push({\n      binary:{\n        data:$('get attachments 1').first().binary.data\n      }\n    })\n}\n\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2464,
+        -336
+      ],
+      "id": "b71e232c-257f-406d-b114-34cd9f4b63eb",
+      "name": "get attachments 3"
+    },
+    {
+      "parameters": {
+        "content": "# extract data",
+        "height": 336,
+        "width": 416
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        400,
+        -432
+      ],
+      "id": "e6e44c3d-395a-4dbd-9d02-7144b3f96e95",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# zoho application",
+        "height": 336,
+        "width": 1556,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        832,
+        -432
+      ],
+      "id": "32e8186d-f018-4330-a516-b2fdfd939909",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Dropbox",
+        "height": 336,
+        "width": 432,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2416,
+        -432
+      ],
+      "id": "023c7e5f-a2cd-449e-85ad-933c32dd21d8",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# Email",
+        "height": 336,
+        "width": 416,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        -432
+      ],
+      "id": "f9af7707-0e63-4510-baa8-f83a17c3eda9",
+      "name": "Sticky Note3"
     },
     {
       "parameters": {
@@ -211,7 +288,7 @@
       "typeVersion": 2,
       "position": [
         224,
-        -240
+        -336
       ],
       "id": "ae8976d6-2dd5-41e3-a623-f59d071defb8",
       "name": "get attachments 1",
@@ -219,76 +296,72 @@
     },
     {
       "parameters": {
-        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the \n\nlet results = [];\nfor (const item of $input.all()) {\n  results.push({\n      binary:{\n        data:$('get attachments 1').first().binary.data\n      }\n    })\n}\n\n\nreturn results;"
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1f0f7751-0db3-4d6e-b7da-ce2ac500410b",
+              "leftValue": "={{ $json }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1344,
+        -336
+      ],
+      "id": "fc0c2cf2-85b4-49aa-971b-fba75d193118",
+      "name": "has account record?"
+    },
+    {
+      "parameters": {
+        "accountName": "={{ $('get account name').item.json.accountName }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.zohoCrm",
+      "typeVersion": 1,
+      "position": [
+        1568,
+        -272
+      ],
+      "id": "1185458e-3087-44bc-9000-5e5cff6ea1b8",
+      "name": "Create an account",
+      "credentials": {
+        "zohoOAuth2Api": {
+          "id": "ctc33HbS8GvHZ3iA",
+          "name": "Zoho account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\n$input.item.json.accountName = ($('Email Trigger (IMAP)').item.json.subject.split(/-|–/gm)[2] || 'unknown').trim()\n\nreturn $input.item;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1792,
-        -240
+        896,
+        -336
       ],
-      "id": "b71e232c-257f-406d-b114-34cd9f4b63eb",
-      "name": "get attachments 3"
-    },
-    {
-      "parameters": {
-        "content": "# extract data",
-        "height": 336,
-        "width": 480
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        368,
-        -352
-      ],
-      "id": "e6e44c3d-395a-4dbd-9d02-7144b3f96e95",
-      "name": "Sticky Note"
-    },
-    {
-      "parameters": {
-        "content": "# zoho application",
-        "height": 352,
-        "width": 832
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        864,
-        -352
-      ],
-      "id": "32e8186d-f018-4330-a516-b2fdfd939909",
-      "name": "Sticky Note1"
-    },
-    {
-      "parameters": {
-        "content": "# Dropbox",
-        "height": 352,
-        "width": 432
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        1712,
-        -352
-      ],
-      "id": "023c7e5f-a2cd-449e-85ad-933c32dd21d8",
-      "name": "Sticky Note2"
-    },
-    {
-      "parameters": {
-        "content": "# Email",
-        "height": 336,
-        "width": 416
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -64,
-        -352
-      ],
-      "id": "f9af7707-0e63-4510-baa8-f83a17c3eda9",
-      "name": "Sticky Note3"
+      "id": "7ec96791-0d7f-49e0-af1d-e89e997c94ce",
+      "name": "get account name"
     }
   ],
   "connections": {
@@ -318,7 +391,7 @@
       "main": [
         [
           {
-            "node": "zoho: get account",
+            "node": "get account name",
             "type": "main",
             "index": 0
           }
@@ -329,7 +402,7 @@
       "main": [
         [
           {
-            "node": "Create Application",
+            "node": "has account record?",
             "type": "main",
             "index": 0
           }
@@ -369,6 +442,16 @@
         ]
       ]
     },
+    "Upload a file": {
+      "main": [
+        []
+      ]
+    },
+    "get attachments 3": {
+      "main": [
+        []
+      ]
+    },
     "get attachments 1": {
       "main": [
         [
@@ -380,16 +463,40 @@
         ]
       ]
     },
-    "Upload a file": {
-      "main": [
-        []
-      ]
-    },
-    "get attachments 3": {
+    "has account record?": {
       "main": [
         [
           {
-            "node": "Upload a file",
+            "node": "Create Application",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create an account",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an account": {
+      "main": [
+        [
+          {
+            "node": "Create Application",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get account name": {
+      "main": [
+        [
+          {
+            "node": "zoho: get account",
             "type": "main",
             "index": 0
           }
@@ -409,7 +516,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "79605a30-63a1-49e1-96ce-3c9c4f70c76e",
+  "versionId": "f014ebd0-2d95-47f6-b5f4-c7b7641358ce",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
