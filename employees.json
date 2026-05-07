@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-05-07T00:57:46.953Z",
+  "updatedAt": "2026-05-07T01:04:48.174Z",
   "createdAt": "2026-05-06T20:03:12.309Z",
   "id": "b5pqDfo6xzi2p5uA",
   "name": "employees",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -63,7 +63,7 @@
     },
     {
       "parameters": {
-        "url": "https://www.zohoapis.com/crm/v8/Payroll_Reports/7377246000000883390",
+        "url": "=https://www.zohoapis.com/crm/v8/Payroll_Reports/{{ $json.query.redcordId }}",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "zohoOAuth2Api",
         "options": {}
@@ -246,16 +246,19 @@
   },
   "settings": {
     "executionOrder": "v1",
-    "binaryMode": "separate"
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
   },
   "staticData": null,
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "72c822e8-7b24-47bf-a5b6-2d7ae5d8cd02",
-  "activeVersionId": null,
-  "triggerCount": 0,
+  "versionId": "559b6b94-4d01-4f40-8a6a-208431f677eb",
+  "activeVersionId": "559b6b94-4d01-4f40-8a6a-208431f677eb",
+  "triggerCount": 1,
   "shared": [
     {
       "updatedAt": "2026-05-06T20:03:12.309Z",
@@ -265,6 +268,254 @@
       "projectId": "vJt8jIrywUfGQWf1"
     }
   ],
-  "activeVersion": null,
+  "activeVersion": {
+    "updatedAt": "2026-05-07T01:05:41.936Z",
+    "createdAt": "2026-05-07T01:04:48.175Z",
+    "versionId": "559b6b94-4d01-4f40-8a6a-208431f677eb",
+    "workflowId": "b5pqDfo6xzi2p5uA",
+    "nodes": [
+      {
+        "parameters": {
+          "operation": "xlsx",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.extractFromFile",
+        "typeVersion": 1.1,
+        "position": [
+          640,
+          0
+        ],
+        "id": "d99f2e95-de4c-4f15-b75f-8a7a29798b59",
+        "name": "convert to excel"
+      },
+      {
+        "parameters": {
+          "jsCode": "let keys = Object.values($input.all()[3].json);\n\nlet results =[];\n\nfor (const item of $input.all().slice(4)) {\n  let index =0;\n  let result = {};\n  for (const key of Object.keys(item.json)){\n    result[keys[index]] = item.json[key];\n    index++;\n  }\n  results.push(result);\n}\n\nreturn results;"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          848,
+          0
+        ],
+        "id": "8bf91396-2dad-4e69-9cd8-42ee786685df",
+        "name": "extract data"
+      },
+      {
+        "parameters": {
+          "url": "=https://www.zohoapis.com/crm/v8/files?id={{ $json.data[0].Report[0].File_Id__s }}",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "zohoOAuth2Api",
+          "options": {
+            "response": {
+              "response": {
+                "responseFormat": "file"
+              }
+            }
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          432,
+          0
+        ],
+        "id": "5784e6bb-98e6-48ff-8f4d-682bca7810f0",
+        "name": "get file",
+        "credentials": {
+          "zohoOAuth2Api": {
+            "id": "ctc33HbS8GvHZ3iA",
+            "name": "Zoho account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "url": "=https://www.zohoapis.com/crm/v8/Payroll_Reports/{{ $json.query.redcordId }}",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "zohoOAuth2Api",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          208,
+          0
+        ],
+        "id": "7ad63559-b268-4966-a9a2-bb385d8b7b8f",
+        "name": "get record",
+        "credentials": {
+          "zohoOAuth2Api": {
+            "id": "ctc33HbS8GvHZ3iA",
+            "name": "Zoho account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://www.zohoapis.com/crm/v8/Employees",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "zohoOAuth2Api",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"data\": [\n    {\n      \"Account\":\"{{ $('get record').first().json.data[0].Account.id }}\",\n      \"Payroll_Report\":\"{{ $('Webhook').first().json.query.redcordId }}\",\n      \"Name\":\"{{ $json['First Name']}} {{ $json['Last Name']}}\",\n      \"Last_Name\":\"{{ $json['Last Name'] }}\",\n      \"First_Name\":\"{{ $json['First Name'] }}\",\n      \"DOB\":\"{{ $json.DOB ? new Date($json.DOB).toISOString().split('T')[0] : ''}}\",\n      \"SSN\":\"{{ $json.SSN }}\",\n      \"Street_1\":\"{{ $json['Street 1'] }}\",\n      \"Street_2\":\"{{ $json['Street 2'] }}\",\n      \"City\":\"{{ $json.City }}\",\n      \"State\":\"{{ $json.State }}\",\n      \"Zip\":\"{{ $json.Zip }}\",\n      \"First Work Date\":\"{{ $json['First Work Date'] ? new Date(Math.round(( ($json['First Work Date']) - 25569 )*86400*1000)).toISOString().split('T')[0] :'' }}\"\n    }\n  ]\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          1056,
+          0
+        ],
+        "id": "2e440702-3b93-4166-a468-86ff662e7b34",
+        "name": "create a record",
+        "credentials": {
+          "zohoOAuth2Api": {
+            "id": "ctc33HbS8GvHZ3iA",
+            "name": "Zoho account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "aggregate": "aggregateAllItemData",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.aggregate",
+        "typeVersion": 1,
+        "position": [
+          1264,
+          0
+        ],
+        "id": "6160505f-5c74-4801-ab22-f7931812a21f",
+        "name": "Aggregate"
+      },
+      {
+        "parameters": {
+          "method": "PUT",
+          "url": "=https://www.zohoapis.com/crm/v8/Payroll_Reports/{{ $('Webhook').first().json.query.redcordId }}",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "zohoOAuth2Api",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "{\n  \"data\": [\n    {\n      \"Processed\": true\n    }\n  ]\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          1472,
+          0
+        ],
+        "id": "5e633c30-bde3-4b05-92e2-b80fc6f1b328",
+        "name": "update payroll report",
+        "credentials": {
+          "zohoOAuth2Api": {
+            "id": "ctc33HbS8GvHZ3iA",
+            "name": "Zoho account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "path": "3802f8fd-b2ec-4d29-ba83-16494a06d497",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "f6f39e85-f942-4f8a-8d6c-b150eace6506",
+        "name": "Webhook",
+        "webhookId": "3802f8fd-b2ec-4d29-ba83-16494a06d497"
+      }
+    ],
+    "connections": {
+      "convert to excel": {
+        "main": [
+          [
+            {
+              "node": "extract data",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "extract data": {
+        "main": [
+          [
+            {
+              "node": "create a record",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "get file": {
+        "main": [
+          [
+            {
+              "node": "convert to excel",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "get record": {
+        "main": [
+          [
+            {
+              "node": "get file",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "create a record": {
+        "main": [
+          [
+            {
+              "node": "Aggregate",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Aggregate": {
+        "main": [
+          [
+            {
+              "node": "update payroll report",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "get record",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "sam mittelman",
+    "name": "Version 559b6b94",
+    "description": "",
+    "autosaved": true
+  },
   "tags": []
 }
