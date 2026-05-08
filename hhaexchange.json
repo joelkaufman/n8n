@@ -3,7 +3,7 @@
   "createdAt": "2026-05-07T16:09:28.649Z",
   "id": "jyIQvpghZRcQSCxC",
   "name": "HHAExchange",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -144,7 +144,7 @@
     ]
   },
   "versionId": "d6064cbf-72c1-45cd-934e-4c8ccd60df03",
-  "activeVersionId": null,
+  "activeVersionId": "d6064cbf-72c1-45cd-934e-4c8ccd60df03",
   "triggerCount": 0,
   "shared": [
     {
@@ -155,6 +155,131 @@
       "projectId": "vJt8jIrywUfGQWf1"
     }
   ],
-  "activeVersion": null,
+  "activeVersion": {
+    "updatedAt": "2026-05-08T17:48:48.773Z",
+    "createdAt": "2026-05-08T15:31:37.939Z",
+    "versionId": "d6064cbf-72c1-45cd-934e-4c8ccd60df03",
+    "workflowId": "jyIQvpghZRcQSCxC",
+    "nodes": [
+      {
+        "parameters": {
+          "operation": "pdf",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.extractFromFile",
+        "typeVersion": 1.1,
+        "position": [
+          256,
+          0
+        ],
+        "id": "140d6de9-2cf4-4f02-8011-9d24220d0222",
+        "name": "Extract from File"
+      },
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "file_id"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -192,
+          0
+        ],
+        "id": "ea044ebf-77e1-4454-8eff-17fffdf98483",
+        "name": "start"
+      },
+      {
+        "parameters": {
+          "url": "=https://www.zohoapis.com/crm/v8/files?id={{ $json.file_id }}",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "zohoOAuth2Api",
+          "options": {
+            "response": {
+              "response": {
+                "responseFormat": "file"
+              }
+            }
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          32,
+          0
+        ],
+        "id": "d7eb05ef-6338-45a9-a7a5-b2ad3eb41c56",
+        "name": "get file",
+        "credentials": {
+          "zohoOAuth2Api": {
+            "id": "ctc33HbS8GvHZ3iA",
+            "name": "Zoho account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "function cleanDate(value = \"\") {\n    if (value == \"\") {\n        return \"\";\n    }\n    return new Date(value.replace(\"12:00:00 AM\", \"\").trim()).toISOString().split('T')[0];\n}\n\n\nconst chunkArray = (arr, size) => \n  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>\n    arr.slice(i * size, i * size + size)\n  );\n\n\nconst lines = $input.item.json.text\n    .split(/\\r?\\n/)\n    .map(line => line.trim())\n    .filter(Boolean);\n\nconst people = [];\nconst addressDates = [];\nconst appDates = [];\n\nlet i = 0;\n\nwhile (i < lines.length) {\n    const line = lines[i];\n\n    if (line.startsWith(\"Last Name First Name DOB SSN\")) {\n        i++;\n\n        while (i < lines.length && !lines[i].startsWith(\"City State Zip\")) {\n            const l = lines[i];\n\n            if (\n                l.startsWith(\"Hire date NCHC-CrediForce\") ||\n                l.startsWith(\"Date:\") ||\n                l.startsWith(\"Page \")\n            ) {\n                i++;\n                continue;\n            }\n\n            const m = l.match(\n                /^(.*?)\\s+(\\d{2}\\/\\d{2}\\/\\d{4})\\s+(\\d{3}-\\d{2}-\\d{4})\\s+(.*)$/\n            );\n\n            if (m) {\n                const nameTokens = m[1].trim().split(/\\s+/);\n\n                people.push({\n                    \"Last_Name\": nameTokens[0] || \"\",\n                    \"First_Name\": nameTokens.slice(1).join(\" \"),\n                    DOB: cleanDate(m[2]),\n                    SSN: m[3].replaceAll('-', ''),\n                    \"Street_1\": m[4].trim(),\n                    \"Street_2\": \"\"\n                });\n            }\n\n            i++;\n        }\n\n        continue;\n    }\n\n    if (line.startsWith(\"City State Zip\")) {\n        i++;\n\n        while (\n            i < lines.length &&\n            !lines[i].startsWith(\"Application Date Last Work Date\")\n        ) {\n            const l = lines[i];\n\n            if (\n                l.startsWith(\"Hire date NCHC-CrediForce\") ||\n                l.startsWith(\"Date:\") ||\n                l.startsWith(\"Page \")\n            ) {\n                i++;\n                continue;\n            }\n\n            const m = l.match(/^(.*?)\\s+([A-Z]{2})\\s+(\\d{5})(?:\\s+(.*))?$/);\n\n            if (m) {\n                const dates = (m[4] || \"\").match(/\\d{1,2}\\/\\d{1,2}\\/\\d{4}/g) || [];\n\n                addressDates.push({\n                    City: m[1].trim(),\n                    State: m[2],\n                    Zip: m[3],\n                    \"First Work Date\": cleanDate(dates[0] || \"\"),\n                    \"Rehire_Date\": cleanDate(dates[1] || \"\"),\n                    \"Hire_Date\": cleanDate(dates[2] || \"\")\n                });\n            }\n\n            i++;\n        }\n\n        continue;\n    }\n\n    if (line.startsWith(\"Application Date Last Work Date\")) {\n        i++;\n\n        while (\n            i < lines.length &&\n            !lines[i].startsWith(\"Last Name First Name DOB SSN\")\n        ) {\n            const l = lines[i];\n\n            if (\n                l.startsWith(\"Hire date NCHC-CrediForce\") ||\n                l.startsWith(\"Date:\") ||\n                l.startsWith(\"Page \")\n            ) {\n                i++;\n                continue;\n            }\n\n            const dates = l.match(/\\d{1,2}\\/\\d{1,2}\\/\\d{4}/g) || [];\n\n            if (dates.length) {\n                appDates.push({\n                    \"Application_Date\": cleanDate(dates[0] || \"\"),\n                    \"Last_Work_Date\": cleanDate(dates[1] || \"\")\n                });\n            }\n\n            i++;\n        }\n\n        continue;\n    }\n\n    i++;\n}\n\nconst rowCount = Math.min(people.length, addressDates.length, appDates.length);\n\nconst rows = [];\n\nfor (let idx = 0; idx < rowCount; idx++) {\n    rows.push({\n        ...people[idx],\n        ...addressDates[idx],\n        ...appDates[idx]\n    });\n}\n\n\n\nreturn chunkArray(rows,100).map(o=>{\n  return {\n    json:{\n      data:o\n    }\n  }\n});"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          480,
+          0
+        ],
+        "id": "79724e26-bc4c-4b4a-89a1-edadf486546c",
+        "name": "transform data"
+      }
+    ],
+    "connections": {
+      "Extract from File": {
+        "main": [
+          [
+            {
+              "node": "transform data",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "start": {
+        "main": [
+          [
+            {
+              "node": "get file",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "get file": {
+        "main": [
+          [
+            {
+              "node": "Extract from File",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "transform data": {
+        "main": [
+          []
+        ]
+      }
+    },
+    "authors": "sam mittelman",
+    "name": "Version d6064cbf",
+    "description": "",
+    "autosaved": true
+  },
   "tags": []
 }
