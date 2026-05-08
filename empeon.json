@@ -1,0 +1,162 @@
+{
+  "updatedAt": "2026-05-08T01:22:47.160Z",
+  "createdAt": "2026-05-08T01:18:52.068Z",
+  "id": "ZOWcRr2nzRYHPF6t",
+  "name": "Empeon",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "account_id"
+            },
+            {
+              "name": "payroll_report_id"
+            },
+            {
+              "name": "file_id"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -192,
+        0
+      ],
+      "id": "6a00c84b-0290-46c7-ad86-2c317d72e7db",
+      "name": "start"
+    },
+    {
+      "parameters": {
+        "url": "=https://www.zohoapis.com/crm/v8/files?id={{ $json.file_id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "zohoOAuth2Api",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        32,
+        0
+      ],
+      "id": "e9a1d879-8745-4ef5-b6b4-cb48cab0b4d5",
+      "name": "get file",
+      "credentials": {
+        "zohoOAuth2Api": {
+          "id": "ctc33HbS8GvHZ3iA",
+          "name": "Zoho account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        0
+      ],
+      "id": "e4f8fb5f-f328-4537-9ea1-e1bfd31c4eb4",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "jsCode": "let keys = Object.values($input.all()[3].json);\n\nlet results =[];\n\nfor (const item of $input.all().slice(4)) {\n  let index =0;\n  let result = {};\n  for (const key of Object.keys(item.json)){\n    result[keys[index]] = item.json[key];\n    index++;\n  }\n  results.push(result);\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "33a2c745-b400-460c-84fb-bf0c4f6d8d91",
+      "name": "get data"
+    }
+  ],
+  "connections": {
+    "start": {
+      "main": [
+        [
+          {
+            "node": "get file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "get data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "start": [
+      {
+        "json": {
+          "account_id": "7377246000000840220",
+          "payroll_report_id": "7377246000000930046",
+          "file_id": "cks7b3a63020c4e814949856f4bc22ce7b1ff"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "eb9746a5-76b2-4edd-967c-0c7bc403d226",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-05-08T01:18:52.068Z",
+      "createdAt": "2026-05-08T01:18:52.068Z",
+      "role": "workflow:owner",
+      "workflowId": "ZOWcRr2nzRYHPF6t",
+      "projectId": "vJt8jIrywUfGQWf1"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
