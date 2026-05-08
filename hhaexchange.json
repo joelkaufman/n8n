@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-08T01:16:52.448Z",
+  "updatedAt": "2026-05-08T14:47:23.570Z",
   "createdAt": "2026-05-07T16:09:28.649Z",
   "id": "jyIQvpghZRcQSCxC",
   "name": "HHAExchange",
@@ -75,8 +75,7 @@
     },
     {
       "parameters": {
-        "mode": "runOnceForEachItem",
-        "jsCode": "const crypto = require('crypto');\nfunction cleanDate(value = \"\") {\n    if (value == \"\") {\n        return \"\";\n    }\n    return new Date(value.replace(\"12:00:00 AM\", \"\").trim()).toISOString().split('T')[0];\n}\n\n// Source - https://stackoverflow.com/a/48161723\nasync function sha256(message) {\n    // encode as UTF-8\n    const msgBuffer = new TextEncoder().encode(message);   \n    // hash the message\n    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);\n\n    // convert ArrayBuffer to Array\n    const hashArray = Array.from(new Uint8Array(hashBuffer));\n\n    // convert bytes to hex string                  \n    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');\n    return hashHex;\n}\n\n\nconst lines = $input.item.json.text\n    .split(/\\r?\\n/)\n    .map(line => line.trim())\n    .filter(Boolean);\n\nconst people = [];\nconst addressDates = [];\nconst appDates = [];\n\nlet i = 0;\n\nwhile (i < lines.length) {\n    const line = lines[i];\n\n    if (line.startsWith(\"Last Name First Name DOB SSN\")) {\n        i++;\n\n        while (i < lines.length && !lines[i].startsWith(\"City State Zip\")) {\n            const l = lines[i];\n\n            if (\n                l.startsWith(\"Hire date NCHC-CrediForce\") ||\n                l.startsWith(\"Date:\") ||\n                l.startsWith(\"Page \")\n            ) {\n                i++;\n                continue;\n            }\n\n            const m = l.match(\n                /^(.*?)\\s+(\\d{2}\\/\\d{2}\\/\\d{4})\\s+(\\d{3}-\\d{2}-\\d{4})\\s+(.*)$/\n            );\n\n            if (m) {\n                const nameTokens = m[1].trim().split(/\\s+/);\n\n                people.push({\n                    \"Last_Name\": nameTokens[0] || \"\",\n                    \"First_Name\": nameTokens.slice(1).join(\" \"),\n                    DOB: cleanDate(m[2]),\n                    SSN: m[3].replaceAll('-', ''),\n                    \"Street_1\": m[4].trim(),\n                    \"Street_2\": \"\",\n                    \"Extrnal_Id\":await sha256(m[3].replaceAll('-', '') + $('start').item.json.account_id),\n                  \"Account\":$('start').item.json.account_id\n                });\n            }\n\n            i++;\n        }\n\n        continue;\n    }\n\n    if (line.startsWith(\"City State Zip\")) {\n        i++;\n\n        while (\n            i < lines.length &&\n            !lines[i].startsWith(\"Application Date Last Work Date\")\n        ) {\n            const l = lines[i];\n\n            if (\n                l.startsWith(\"Hire date NCHC-CrediForce\") ||\n                l.startsWith(\"Date:\") ||\n                l.startsWith(\"Page \")\n            ) {\n                i++;\n                continue;\n            }\n\n            const m = l.match(/^(.*?)\\s+([A-Z]{2})\\s+(\\d{5})(?:\\s+(.*))?$/);\n\n            if (m) {\n                const dates = (m[4] || \"\").match(/\\d{1,2}\\/\\d{1,2}\\/\\d{4}/g) || [];\n\n                addressDates.push({\n                    City: m[1].trim(),\n                    State: m[2],\n                    Zip: m[3],\n                    \"First Work Date\": cleanDate(dates[0] || \"\"),\n                    \"Rehire_Date\": cleanDate(dates[1] || \"\"),\n                    \"Hire_Date\": cleanDate(dates[2] || \"\")\n                });\n            }\n\n            i++;\n        }\n\n        continue;\n    }\n\n    if (line.startsWith(\"Application Date Last Work Date\")) {\n        i++;\n\n        while (\n            i < lines.length &&\n            !lines[i].startsWith(\"Last Name First Name DOB SSN\")\n        ) {\n            const l = lines[i];\n\n            if (\n                l.startsWith(\"Hire date NCHC-CrediForce\") ||\n                l.startsWith(\"Date:\") ||\n                l.startsWith(\"Page \")\n            ) {\n                i++;\n                continue;\n            }\n\n            const dates = l.match(/\\d{1,2}\\/\\d{1,2}\\/\\d{4}/g) || [];\n\n            if (dates.length) {\n                appDates.push({\n                    \"Application_Date\": cleanDate(dates[0] || \"\"),\n                    \"Last_Work_Date\": cleanDate(dates[1] || \"\")\n                });\n            }\n\n            i++;\n        }\n\n        continue;\n    }\n\n    i++;\n}\n\nconst rowCount = Math.min(people.length, addressDates.length, appDates.length);\n\nconst rows = [];\n\nfor (let idx = 0; idx < rowCount; idx++) {\n    rows.push({\n        ...people[idx],\n        ...addressDates[idx],\n        ...appDates[idx]\n    });\n}\n\nreturn {\n    json: {\n      data: rows\n    }\n}"
+        "jsCode": "const crypto = require('crypto');\nfunction cleanDate(value = \"\") {\n    if (value == \"\") {\n        return \"\";\n    }\n    return new Date(value.replace(\"12:00:00 AM\", \"\").trim()).toISOString().split('T')[0];\n}\n\n// Source - https://stackoverflow.com/a/48161723\nasync function sha256(message) {\n    // encode as UTF-8\n    const msgBuffer = new TextEncoder().encode(message);   \n    // hash the message\n    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);\n\n    // convert ArrayBuffer to Array\n    const hashArray = Array.from(new Uint8Array(hashBuffer));\n\n    // convert bytes to hex string                  \n    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');\n    return hashHex;\n}\n\nconst chunkArray = (arr, size) => \n  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>\n    arr.slice(i * size, i * size + size)\n  );\n\n\nconst lines = $input.item.json.text\n    .split(/\\r?\\n/)\n    .map(line => line.trim())\n    .filter(Boolean);\n\nconst people = [];\nconst addressDates = [];\nconst appDates = [];\n\nlet i = 0;\n\nwhile (i < lines.length) {\n    const line = lines[i];\n\n    if (line.startsWith(\"Last Name First Name DOB SSN\")) {\n        i++;\n\n        while (i < lines.length && !lines[i].startsWith(\"City State Zip\")) {\n            const l = lines[i];\n\n            if (\n                l.startsWith(\"Hire date NCHC-CrediForce\") ||\n                l.startsWith(\"Date:\") ||\n                l.startsWith(\"Page \")\n            ) {\n                i++;\n                continue;\n            }\n\n            const m = l.match(\n                /^(.*?)\\s+(\\d{2}\\/\\d{2}\\/\\d{4})\\s+(\\d{3}-\\d{2}-\\d{4})\\s+(.*)$/\n            );\n\n            if (m) {\n                const nameTokens = m[1].trim().split(/\\s+/);\n\n                people.push({\n                    \"Last_Name\": nameTokens[0] || \"\",\n                    \"First_Name\": nameTokens.slice(1).join(\" \"),\n                    DOB: cleanDate(m[2]),\n                    SSN: m[3].replaceAll('-', ''),\n                    \"Street_1\": m[4].trim(),\n                    \"Street_2\": \"\",\n                    \"External_Id\":await sha256(m[3].replaceAll('-', '') + $('start').item.json.account_id),\n                  \"Account\":$('start').item.json.account_id,\n                  \"Name\":nameTokens.slice(1).join(\" \") + ' ' + nameTokens[0] || \"\",\n                });\n            }\n\n            i++;\n        }\n\n        continue;\n    }\n\n    if (line.startsWith(\"City State Zip\")) {\n        i++;\n\n        while (\n            i < lines.length &&\n            !lines[i].startsWith(\"Application Date Last Work Date\")\n        ) {\n            const l = lines[i];\n\n            if (\n                l.startsWith(\"Hire date NCHC-CrediForce\") ||\n                l.startsWith(\"Date:\") ||\n                l.startsWith(\"Page \")\n            ) {\n                i++;\n                continue;\n            }\n\n            const m = l.match(/^(.*?)\\s+([A-Z]{2})\\s+(\\d{5})(?:\\s+(.*))?$/);\n\n            if (m) {\n                const dates = (m[4] || \"\").match(/\\d{1,2}\\/\\d{1,2}\\/\\d{4}/g) || [];\n\n                addressDates.push({\n                    City: m[1].trim(),\n                    State: m[2],\n                    Zip: m[3],\n                    \"First Work Date\": cleanDate(dates[0] || \"\"),\n                    \"Rehire_Date\": cleanDate(dates[1] || \"\"),\n                    \"Hire_Date\": cleanDate(dates[2] || \"\")\n                });\n            }\n\n            i++;\n        }\n\n        continue;\n    }\n\n    if (line.startsWith(\"Application Date Last Work Date\")) {\n        i++;\n\n        while (\n            i < lines.length &&\n            !lines[i].startsWith(\"Last Name First Name DOB SSN\")\n        ) {\n            const l = lines[i];\n\n            if (\n                l.startsWith(\"Hire date NCHC-CrediForce\") ||\n                l.startsWith(\"Date:\") ||\n                l.startsWith(\"Page \")\n            ) {\n                i++;\n                continue;\n            }\n\n            const dates = l.match(/\\d{1,2}\\/\\d{1,2}\\/\\d{4}/g) || [];\n\n            if (dates.length) {\n                appDates.push({\n                    \"Application_Date\": cleanDate(dates[0] || \"\"),\n                    \"Last_Work_Date\": cleanDate(dates[1] || \"\")\n                });\n            }\n\n            i++;\n        }\n\n        continue;\n    }\n\n    i++;\n}\n\nconst rowCount = Math.min(people.length, addressDates.length, appDates.length);\n\nconst rows = [];\n\nfor (let idx = 0; idx < rowCount; idx++) {\n    rows.push({\n        ...people[idx],\n        ...addressDates[idx],\n        ...appDates[idx]\n    });\n}\n\n\n\nreturn chunkArray(rows,100).map(o=>{\n  console.log(o);\n  return {\n    json:{\n      data:o\n    }\n  }\n})"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -85,7 +84,7 @@
         0
       ],
       "id": "79724e26-bc4c-4b4a-89a1-edadf486546c",
-      "name": "get data"
+      "name": "transform data"
     }
   ],
   "connections": {
@@ -93,7 +92,7 @@
       "main": [
         [
           {
-            "node": "get data",
+            "node": "transform data",
             "type": "main",
             "index": 0
           }
@@ -122,7 +121,7 @@
         ]
       ]
     },
-    "get data": {
+    "transform data": {
       "main": [
         []
       ]
@@ -141,8 +140,8 @@
       {
         "json": {
           "account_id": "7377246000000840220",
-          "payroll_report_id": "7377246000000930046",
-          "file_id": "cks7b3a63020c4e814949856f4bc22ce7b1ff"
+          "payroll_report_id": "7377246000000958029",
+          "file_id": "5543rb1f150b650a749d4a1903e7bd7b17e27"
         },
         "pairedItem": {
           "item": 0
@@ -150,7 +149,7 @@
       }
     ]
   },
-  "versionId": "9ca34ac1-9837-4526-bd1e-0560f143ddca",
+  "versionId": "49d87519-6d0f-4334-84cb-53281fb897d5",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
