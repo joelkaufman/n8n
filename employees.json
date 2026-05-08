@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-08T14:46:59.290Z",
+  "updatedAt": "2026-05-08T15:34:42.225Z",
   "createdAt": "2026-05-06T20:03:12.309Z",
   "id": "b5pqDfo6xzi2p5uA",
   "name": "employees",
@@ -42,8 +42,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        0,
-        -48
+        1568,
+        464
       ],
       "id": "5e633c30-bde3-4b05-92e2-b80fc6f1b328",
       "name": "update payroll report",
@@ -455,7 +455,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        896,
+        1120,
         464
       ],
       "id": "c7e14704-d496-48ee-bd1a-f69bf58c149f",
@@ -466,6 +466,34 @@
           "name": "Zoho account 2"
         }
       }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\n$input.item.json.data =  $input.item.json.data.map(o=>{\n  return {\n    ...o, \n    Name:o.First_Name + ' ' + o.Last_Name,\n    Account:$('Webhook').item.json.query.account_id,\n    Payroll_Report:$('Webhook').item.json.query.payroll_report_id,\n    External_Id:(o.First_Name+o.Last_Name+o.SSN.slice(4)+o.DOB+$('Webhook').item.json.query.account_id).toLowerCase()\n  }\n})\n\nreturn $input.item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        464
+      ],
+      "id": "12422739-238d-4eea-a05b-84b19bbfa6fb",
+      "name": "Transform"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1344,
+        464
+      ],
+      "id": "9dfe96cf-fc22-42c2-b7b3-4aa3319271e7",
+      "name": "Aggregate"
     }
   ],
   "connections": {
@@ -527,7 +555,7 @@
       "main": [
         [
           {
-            "node": "upsert employees",
+            "node": "Transform",
             "type": "main",
             "index": 0
           }
@@ -538,7 +566,7 @@
       "main": [
         [
           {
-            "node": "upsert employees",
+            "node": "Transform",
             "type": "main",
             "index": 0
           }
@@ -549,7 +577,7 @@
       "main": [
         [
           {
-            "node": "upsert employees",
+            "node": "Transform",
             "type": "main",
             "index": 0
           }
@@ -560,7 +588,40 @@
       "main": [
         [
           {
+            "node": "Transform",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform": {
+      "main": [
+        [
+          {
             "node": "upsert employees",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upsert employees": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "update payroll report",
             "type": "main",
             "index": 0
           }
@@ -588,21 +649,21 @@
             "user-agent": "https://crm.zoho.com",
             "accept-encoding": "gzip,deflate",
             "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
-            "x-forwarded-for": "136.143.177.43",
+            "x-forwarded-for": "136.143.176.43",
             "x-forwarded-host": "primary-production-72774.up.railway.app",
             "x-forwarded-proto": "https",
-            "x-railway-edge": "railway/us-east4-eqdc4a",
-            "x-railway-request-id": "kJw3M_7sQWmASbKljVra_w",
-            "x-real-ip": "136.143.177.43",
-            "x-request-start": "1778250847466",
+            "x-railway-edge": "railway/us-west2",
+            "x-railway-request-id": "T2O_pcmkSsSnbeuIlt7tkg",
+            "x-real-ip": "136.143.176.43",
+            "x-request-start": "1778254017085",
             "x-zoho-crm-feature": "webhook",
             "zsec_user_import_url": "true"
           },
           "params": {},
           "query": {
-            "payroll_report_id": "7377246000000958029",
-            "account_id": "7377246000000840220",
-            "payroll_system": "HHA Exchange"
+            "payroll_report_id": "7377246000000950057",
+            "account_id": "7377246000000950054",
+            "payroll_system": "Visiting Aid"
           },
           "body": {},
           "webhookUrl": "https://primary-production-72774.up.railway.app/webhook-test/3802f8fd-b2ec-4d29-ba83-16494a06d497",
@@ -614,7 +675,7 @@
       }
     ]
   },
-  "versionId": "88682f7f-3a35-4734-9d2b-7c3dda87a620",
+  "versionId": "27f72596-b9b3-4861-87c6-c07e331e3559",
   "activeVersionId": "559b6b94-4d01-4f40-8a6a-208431f677eb",
   "triggerCount": 1,
   "shared": [
