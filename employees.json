@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-08T15:34:42.225Z",
+  "updatedAt": "2026-05-08T16:44:15.199Z",
   "createdAt": "2026-05-06T20:03:12.309Z",
   "id": "b5pqDfo6xzi2p5uA",
   "name": "employees",
@@ -649,21 +649,21 @@
             "user-agent": "https://crm.zoho.com",
             "accept-encoding": "gzip,deflate",
             "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
-            "x-forwarded-for": "136.143.176.43",
+            "x-forwarded-for": "136.143.177.62",
             "x-forwarded-host": "primary-production-72774.up.railway.app",
             "x-forwarded-proto": "https",
-            "x-railway-edge": "railway/us-west2",
-            "x-railway-request-id": "T2O_pcmkSsSnbeuIlt7tkg",
-            "x-real-ip": "136.143.176.43",
-            "x-request-start": "1778254017085",
+            "x-railway-edge": "railway/us-east4-eqdc4a",
+            "x-railway-request-id": "wSoDmNR0QMyH4-PGezItjw",
+            "x-real-ip": "136.143.177.62",
+            "x-request-start": "1778258649400",
             "x-zoho-crm-feature": "webhook",
             "zsec_user_import_url": "true"
           },
           "params": {},
           "query": {
-            "payroll_report_id": "7377246000000950057",
-            "account_id": "7377246000000950054",
-            "payroll_system": "Visiting Aid"
+            "payroll_report_id": "7377246000000950066",
+            "account_id": "7377246000000950063",
+            "payroll_system": "Empeon"
           },
           "body": {},
           "webhookUrl": "https://primary-production-72774.up.railway.app/webhook-test/3802f8fd-b2ec-4d29-ba83-16494a06d497",
@@ -676,7 +676,7 @@
     ]
   },
   "versionId": "27f72596-b9b3-4861-87c6-c07e331e3559",
-  "activeVersionId": "559b6b94-4d01-4f40-8a6a-208431f677eb",
+  "activeVersionId": "27f72596-b9b3-4861-87c6-c07e331e3559",
   "triggerCount": 1,
   "shared": [
     {
@@ -688,69 +688,14 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-05-07T01:05:41.936Z",
-    "createdAt": "2026-05-07T01:04:48.175Z",
-    "versionId": "559b6b94-4d01-4f40-8a6a-208431f677eb",
+    "updatedAt": "2026-05-08T17:48:59.588Z",
+    "createdAt": "2026-05-08T15:34:42.228Z",
+    "versionId": "27f72596-b9b3-4861-87c6-c07e331e3559",
     "workflowId": "b5pqDfo6xzi2p5uA",
     "nodes": [
       {
         "parameters": {
-          "operation": "xlsx",
-          "options": {}
-        },
-        "type": "n8n-nodes-base.extractFromFile",
-        "typeVersion": 1.1,
-        "position": [
-          640,
-          0
-        ],
-        "id": "d99f2e95-de4c-4f15-b75f-8a7a29798b59",
-        "name": "convert to excel"
-      },
-      {
-        "parameters": {
-          "jsCode": "let keys = Object.values($input.all()[3].json);\n\nlet results =[];\n\nfor (const item of $input.all().slice(4)) {\n  let index =0;\n  let result = {};\n  for (const key of Object.keys(item.json)){\n    result[keys[index]] = item.json[key];\n    index++;\n  }\n  results.push(result);\n}\n\nreturn results;"
-        },
-        "type": "n8n-nodes-base.code",
-        "typeVersion": 2,
-        "position": [
-          848,
-          0
-        ],
-        "id": "8bf91396-2dad-4e69-9cd8-42ee786685df",
-        "name": "extract data"
-      },
-      {
-        "parameters": {
-          "url": "=https://www.zohoapis.com/crm/v8/files?id={{ $json.data[0].Report[0].File_Id__s }}",
-          "authentication": "predefinedCredentialType",
-          "nodeCredentialType": "zohoOAuth2Api",
-          "options": {
-            "response": {
-              "response": {
-                "responseFormat": "file"
-              }
-            }
-          }
-        },
-        "type": "n8n-nodes-base.httpRequest",
-        "typeVersion": 4.4,
-        "position": [
-          432,
-          0
-        ],
-        "id": "5784e6bb-98e6-48ff-8f4d-682bca7810f0",
-        "name": "get file",
-        "credentials": {
-          "zohoOAuth2Api": {
-            "id": "ctc33HbS8GvHZ3iA",
-            "name": "Zoho account 2"
-          }
-        }
-      },
-      {
-        "parameters": {
-          "url": "=https://www.zohoapis.com/crm/v8/Payroll_Reports/{{ $json.query.redcordId }}",
+          "url": "=https://www.zohoapis.com/crm/v8/Payroll_Reports/{{ $json.query.payroll_report_id }}",
           "authentication": "predefinedCredentialType",
           "nodeCredentialType": "zohoOAuth2Api",
           "options": {}
@@ -758,8 +703,8 @@
         "type": "n8n-nodes-base.httpRequest",
         "typeVersion": 4.4,
         "position": [
-          208,
-          0
+          224,
+          464
         ],
         "id": "7ad63559-b268-4966-a9a2-bb385d8b7b8f",
         "name": "get record",
@@ -772,48 +717,8 @@
       },
       {
         "parameters": {
-          "method": "POST",
-          "url": "https://www.zohoapis.com/crm/v8/Employees",
-          "authentication": "predefinedCredentialType",
-          "nodeCredentialType": "zohoOAuth2Api",
-          "sendBody": true,
-          "specifyBody": "json",
-          "jsonBody": "={\n  \"data\": [\n    {\n      \"Account\":\"{{ $('get record').first().json.data[0].Account.id }}\",\n      \"Payroll_Report\":\"{{ $('Webhook').first().json.query.redcordId }}\",\n      \"Name\":\"{{ $json['First Name']}} {{ $json['Last Name']}}\",\n      \"Last_Name\":\"{{ $json['Last Name'] }}\",\n      \"First_Name\":\"{{ $json['First Name'] }}\",\n      \"DOB\":\"{{ $json.DOB ? new Date($json.DOB).toISOString().split('T')[0] : ''}}\",\n      \"SSN\":\"{{ $json.SSN }}\",\n      \"Street_1\":\"{{ $json['Street 1'] }}\",\n      \"Street_2\":\"{{ $json['Street 2'] }}\",\n      \"City\":\"{{ $json.City }}\",\n      \"State\":\"{{ $json.State }}\",\n      \"Zip\":\"{{ $json.Zip }}\",\n      \"First Work Date\":\"{{ $json['First Work Date'] ? new Date(Math.round(( ($json['First Work Date']) - 25569 )*86400*1000)).toISOString().split('T')[0] :'' }}\"\n    }\n  ]\n}",
-          "options": {}
-        },
-        "type": "n8n-nodes-base.httpRequest",
-        "typeVersion": 4.4,
-        "position": [
-          1056,
-          0
-        ],
-        "id": "2e440702-3b93-4166-a468-86ff662e7b34",
-        "name": "create a record",
-        "credentials": {
-          "zohoOAuth2Api": {
-            "id": "ctc33HbS8GvHZ3iA",
-            "name": "Zoho account 2"
-          }
-        }
-      },
-      {
-        "parameters": {
-          "aggregate": "aggregateAllItemData",
-          "options": {}
-        },
-        "type": "n8n-nodes-base.aggregate",
-        "typeVersion": 1,
-        "position": [
-          1264,
-          0
-        ],
-        "id": "6160505f-5c74-4801-ab22-f7931812a21f",
-        "name": "Aggregate"
-      },
-      {
-        "parameters": {
           "method": "PUT",
-          "url": "=https://www.zohoapis.com/crm/v8/Payroll_Reports/{{ $('Webhook').first().json.query.redcordId }}",
+          "url": "=https://www.zohoapis.com/crm/v8/Payroll_Reports/{{ $('Webhook').item.json.query.payroll_report_id }}",
           "authentication": "predefinedCredentialType",
           "nodeCredentialType": "zohoOAuth2Api",
           "sendBody": true,
@@ -824,8 +729,8 @@
         "type": "n8n-nodes-base.httpRequest",
         "typeVersion": 4.4,
         "position": [
-          1472,
-          0
+          1568,
+          464
         ],
         "id": "5e633c30-bde3-4b05-92e2-b80fc6f1b328",
         "name": "update payroll report",
@@ -845,59 +750,550 @@
         "typeVersion": 2.1,
         "position": [
           0,
-          0
+          464
         ],
         "id": "f6f39e85-f942-4f8a-8d6c-b150eace6506",
         "name": "Webhook",
         "webhookId": "3802f8fd-b2ec-4d29-ba83-16494a06d497"
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $('Webhook').item.json.query.payroll_system }}",
+                      "rightValue": "HHA Exchange",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      },
+                      "id": "c5bd131e-a82b-4cce-b047-835cc085f8ed"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "HHA Exchange"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "880c5c0c-6fe4-4d66-b87b-e4455f726ffd",
+                      "leftValue": "={{ $('Webhook').item.json.query.payroll_system }}",
+                      "rightValue": "Visiting Aid",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Visiting Aid"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "f647d93b-56b6-4d83-b57d-1e4f2dc70c80",
+                      "leftValue": "={{ $('Webhook').item.json.query.payroll_system }}",
+                      "rightValue": "Empeon",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Empeon"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "04df3b60-f9d6-4dc6-96fc-004706cbb7a4",
+                      "leftValue": "={{ $('Webhook').item.json.query.payroll_system }}",
+                      "rightValue": "Viventium",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Viventium"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.4,
+        "position": [
+          448,
+          432
+        ],
+        "id": "dd63f3b3-3dca-4a48-a176-70ddfda33b12",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "jyIQvpghZRcQSCxC",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/jyIQvpghZRcQSCxC",
+            "cachedResultName": "HHAExchange"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "account_id": "={{ $('Webhook').item.json.query.account_id }}",
+              "payroll_report_id": "={{ $('Webhook').item.json.query.payroll_report_id }}",
+              "file_id": "={{ $('get record').item.json.data[0].Report[0].File_Id__s }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "account_id",
+                "displayName": "account_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "payroll_report_id",
+                "displayName": "payroll_report_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "file_id",
+                "displayName": "file_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "mode": "each",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          672,
+          176
+        ],
+        "id": "ce28a66e-2378-4a24-9eb0-948ce71fc514",
+        "name": " HHAExchange"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "BKhpCfhaYEVJIaUO",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/BKhpCfhaYEVJIaUO",
+            "cachedResultName": "Visiting Aid"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "account_id": "={{ $('Webhook').item.json.query.account_id }}",
+              "payroll_report_id": "={{ $('Webhook').item.json.query.payroll_report_id }}",
+              "file_id": "={{ $json.data[0].Report[0].File_Id__s }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "account_id",
+                "displayName": "account_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "payroll_report_id",
+                "displayName": "payroll_report_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "file_id",
+                "displayName": "file_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "mode": "each",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          672,
+          368
+        ],
+        "id": "70c2b53e-fd2b-4556-abea-a802f5070576",
+        "name": "Visiting Aid"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "ZOWcRr2nzRYHPF6t",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/ZOWcRr2nzRYHPF6t",
+            "cachedResultName": "Empeon"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "account_id": "={{ $('Webhook').item.json.query.account_id }}",
+              "payroll_report_id": "={{ $('Webhook').item.json.query.payroll_report_id }}",
+              "file_id": "={{ $('get record').item.json.data[0].Report[0].File_Id__s }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "account_id",
+                "displayName": "account_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "payroll_report_id",
+                "displayName": "payroll_report_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "file_id",
+                "displayName": "file_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "mode": "each",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          672,
+          560
+        ],
+        "id": "a952b1d7-41d2-448b-ac16-3e95e46f055e",
+        "name": "Empeon"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "vRjeNO1pbIz7Gksr",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/vRjeNO1pbIz7Gksr",
+            "cachedResultName": "Viventium"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "account_id": "={{ $('Webhook').item.json.query.account_id }}",
+              "payroll_report_id": "={{ $('Webhook').item.json.query.payroll_report_id }}",
+              "file_id": "={{ $('get record').item.json.data[0].Report[0].File_Id__s }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "account_id",
+                "displayName": "account_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "payroll_report_id",
+                "displayName": "payroll_report_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "file_id",
+                "displayName": "file_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "mode": "each",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          672,
+          752
+        ],
+        "id": "4d1b1bba-b216-47af-ba88-328f969e6ae7",
+        "name": "Viventium"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://www.zohoapis.com/crm/v8/Employees/upsert",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "zohoOAuth2Api",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"data\":{{ JSON.stringify($json.data) }},\n  \"duplicate_check_fields\": [\"External_Id\"]\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          1120,
+          464
+        ],
+        "id": "c7e14704-d496-48ee-bd1a-f69bf58c149f",
+        "name": "upsert employees",
+        "credentials": {
+          "zohoOAuth2Api": {
+            "id": "ctc33HbS8GvHZ3iA",
+            "name": "Zoho account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\n$input.item.json.data =  $input.item.json.data.map(o=>{\n  return {\n    ...o, \n    Name:o.First_Name + ' ' + o.Last_Name,\n    Account:$('Webhook').item.json.query.account_id,\n    Payroll_Report:$('Webhook').item.json.query.payroll_report_id,\n    External_Id:(o.First_Name+o.Last_Name+o.SSN.slice(4)+o.DOB+$('Webhook').item.json.query.account_id).toLowerCase()\n  }\n})\n\nreturn $input.item;"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          896,
+          464
+        ],
+        "id": "12422739-238d-4eea-a05b-84b19bbfa6fb",
+        "name": "Transform"
+      },
+      {
+        "parameters": {
+          "aggregate": "aggregateAllItemData",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.aggregate",
+        "typeVersion": 1,
+        "position": [
+          1344,
+          464
+        ],
+        "id": "9dfe96cf-fc22-42c2-b7b3-4aa3319271e7",
+        "name": "Aggregate"
       }
     ],
     "connections": {
-      "convert to excel": {
-        "main": [
-          [
-            {
-              "node": "extract data",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "extract data": {
-        "main": [
-          [
-            {
-              "node": "create a record",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "get file": {
-        "main": [
-          [
-            {
-              "node": "convert to excel",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
       "get record": {
         "main": [
           [
             {
-              "node": "get file",
+              "node": "Switch",
               "type": "main",
               "index": 0
             }
           ]
         ]
       },
-      "create a record": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "get record",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": " HHAExchange",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Visiting Aid",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Empeon",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Viventium",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      " HHAExchange": {
+        "main": [
+          [
+            {
+              "node": "Transform",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Visiting Aid": {
+        "main": [
+          [
+            {
+              "node": "Transform",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Empeon": {
+        "main": [
+          [
+            {
+              "node": "Transform",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Viventium": {
+        "main": [
+          [
+            {
+              "node": "Transform",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Transform": {
+        "main": [
+          [
+            {
+              "node": "upsert employees",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "upsert employees": {
         "main": [
           [
             {
@@ -918,21 +1314,10 @@
             }
           ]
         ]
-      },
-      "Webhook": {
-        "main": [
-          [
-            {
-              "node": "get record",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
       }
     },
     "authors": "sam mittelman",
-    "name": "Version 559b6b94",
+    "name": "Version 27f72596",
     "description": "",
     "autosaved": true
   },
