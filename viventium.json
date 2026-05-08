@@ -3,7 +3,7 @@
   "createdAt": "2026-05-08T02:02:05.311Z",
   "id": "vRjeNO1pbIz7Gksr",
   "name": "Viventium",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -145,7 +145,7 @@
     ]
   },
   "versionId": "91549d00-f056-4167-9ed1-523c0d28cc00",
-  "activeVersionId": null,
+  "activeVersionId": "91549d00-f056-4167-9ed1-523c0d28cc00",
   "triggerCount": 0,
   "shared": [
     {
@@ -156,6 +156,131 @@
       "projectId": "vJt8jIrywUfGQWf1"
     }
   ],
-  "activeVersion": null,
+  "activeVersion": {
+    "updatedAt": "2026-05-08T17:48:54.266Z",
+    "createdAt": "2026-05-08T15:23:24.268Z",
+    "versionId": "91549d00-f056-4167-9ed1-523c0d28cc00",
+    "workflowId": "vRjeNO1pbIz7Gksr",
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "file_id"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -192,
+          0
+        ],
+        "id": "018a1958-2fe1-43c6-8c9c-d4ee58463a38",
+        "name": "start"
+      },
+      {
+        "parameters": {
+          "url": "=https://www.zohoapis.com/crm/v8/files?id={{ $json.file_id }}",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "zohoOAuth2Api",
+          "options": {
+            "response": {
+              "response": {
+                "responseFormat": "file"
+              }
+            }
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          32,
+          0
+        ],
+        "id": "a879c2c3-0a21-4bb4-b99b-26aafd6fddc8",
+        "name": "get file",
+        "credentials": {
+          "zohoOAuth2Api": {
+            "id": "ctc33HbS8GvHZ3iA",
+            "name": "Zoho account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "xlsx",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.extractFromFile",
+        "typeVersion": 1.1,
+        "position": [
+          256,
+          0
+        ],
+        "id": "76f54c5d-3cfc-4d80-be2b-6d84d4d34393",
+        "name": "Extract from File"
+      },
+      {
+        "parameters": {
+          "jsCode": "function cleanDate(value = \"\") {\n    if (value == \"\") {\n        return \"\";\n    }\n    return new Date(value.replace(\"12:00:00 AM\", \"\").trim()).toISOString().split('T')[0];\n}\n\n\nconst chunkArray = (arr, size) => \n  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>\n    arr.slice(i * size, i * size + size)\n  );\n\nlet data = await Promise.all($input.all().map(async function(o){\n      console.log(o)\n      return {\n        Last_Name:o.json['Last Name'],\n        First_Name:o.json['First Name'],\n        DOB:cleanDate(o.json['Birth Date']),\n        SSN:o.json['Social Security Number'].replaceAll('-',''),\n        Address_1:o.json['Primary Address 1'],\n        City:o.json['Primary City'],\n        State:o.json['Primary State'],\n        Zip:o.json['Primary Zip Code'],\n        Hire_Date:cleanDate(o.json['Hire Date']),\n        Rate:Math.round((o.json['BaseRate'] || 0) * 100) / 100\n      }\n    }))\n\nreturn chunkArray(data,100).map(o=>{\n  return {\n    json:{\n      data:o\n    }\n  }\n})\n\n\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          480,
+          0
+        ],
+        "id": "3b242db1-3bff-41d1-8f3b-01b6dd707b31",
+        "name": "transform data"
+      }
+    ],
+    "connections": {
+      "start": {
+        "main": [
+          [
+            {
+              "node": "get file",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "get file": {
+        "main": [
+          [
+            {
+              "node": "Extract from File",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Extract from File": {
+        "main": [
+          [
+            {
+              "node": "transform data",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "transform data": {
+        "main": [
+          []
+        ]
+      }
+    },
+    "authors": "sam mittelman",
+    "name": "Version 91549d00",
+    "description": "",
+    "autosaved": true
+  },
   "tags": []
 }
