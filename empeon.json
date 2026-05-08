@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-05-08T01:22:47.160Z",
+  "updatedAt": "2026-05-08T17:47:20.790Z",
   "createdAt": "2026-05-08T01:18:52.068Z",
   "id": "ZOWcRr2nzRYHPF6t",
   "name": "Empeon",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -61,7 +61,6 @@
     },
     {
       "parameters": {
-        "operation": "xlsx",
         "options": {}
       },
       "type": "n8n-nodes-base.extractFromFile",
@@ -75,7 +74,7 @@
     },
     {
       "parameters": {
-        "jsCode": "let keys = Object.values($input.all()[3].json);\n\nlet results =[];\n\nfor (const item of $input.all().slice(4)) {\n  let index =0;\n  let result = {};\n  for (const key of Object.keys(item.json)){\n    result[keys[index]] = item.json[key];\n    index++;\n  }\n  results.push(result);\n}\n\nreturn results;"
+        "jsCode": "const chunkArray = (arr, size) => \n  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>\n    arr.slice(i * size, i * size + size)\n  );\n\nfunction cleanDate(value = \"\") {\n    if (value == \"\") {\n        return \"\";\n    }\n    return new Date(value.replace(\"12:00:00 AM\", \"\").trim()).toISOString().split('T')[0];\n}\n\n\nreturn chunkArray($input.all().map(o=>o.json),100).map(o=>{\n  return {\n    json:{\n      data:o.map(item=>{\n        let keys = Object.keys(item);\n        console.log(keys)\n        return {\n          First_Name:item[keys[1]],\n          Last_Name:item[keys[0]],\n          SSN:item[keys[3]].replaceAll('-',''),\n          DOB:cleanDate(item[keys[2]]),\n          Position: item[keys[4]],\n          Address_1:item[keys[5]],\n          City:item[keys[6]],\n          State:item[keys[7]],\n          Zip:item[keys[8]],\n          First_Work_Date:cleanDate(item[keys[9]]),\n          Wage:Math.round((item[keys[10]]  || 0) * 100) / 100,\n        }\n      })\n    }\n  }\n});\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -84,7 +83,7 @@
         0
       ],
       "id": "33a2c745-b400-460c-84fb-bf0c4f6d8d91",
-      "name": "get data"
+      "name": "transform"
     }
   ],
   "connections": {
@@ -114,7 +113,7 @@
       "main": [
         [
           {
-            "node": "get data",
+            "node": "transform",
             "type": "main",
             "index": 0
           }
@@ -135,9 +134,9 @@
     "start": [
       {
         "json": {
-          "account_id": "7377246000000840220",
-          "payroll_report_id": "7377246000000930046",
-          "file_id": "cks7b3a63020c4e814949856f4bc22ce7b1ff"
+          "account_id": "7377246000000950063",
+          "payroll_report_id": "7377246000000950066",
+          "file_id": "w69tpf9b0e8b673414fd0bf66bf653254e965"
         },
         "pairedItem": {
           "item": 0
@@ -145,8 +144,8 @@
       }
     ]
   },
-  "versionId": "eb9746a5-76b2-4edd-967c-0c7bc403d226",
-  "activeVersionId": null,
+  "versionId": "e2702a60-27ce-4b30-bff8-e79a55343b9c",
+  "activeVersionId": "e2702a60-27ce-4b30-bff8-e79a55343b9c",
   "triggerCount": 0,
   "shared": [
     {
@@ -157,6 +156,131 @@
       "projectId": "vJt8jIrywUfGQWf1"
     }
   ],
-  "activeVersion": null,
+  "activeVersion": {
+    "updatedAt": "2026-05-08T17:48:32.862Z",
+    "createdAt": "2026-05-08T17:47:20.793Z",
+    "versionId": "e2702a60-27ce-4b30-bff8-e79a55343b9c",
+    "workflowId": "ZOWcRr2nzRYHPF6t",
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "account_id"
+              },
+              {
+                "name": "payroll_report_id"
+              },
+              {
+                "name": "file_id"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -192,
+          0
+        ],
+        "id": "6a00c84b-0290-46c7-ad86-2c317d72e7db",
+        "name": "start"
+      },
+      {
+        "parameters": {
+          "url": "=https://www.zohoapis.com/crm/v8/files?id={{ $json.file_id }}",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "zohoOAuth2Api",
+          "options": {
+            "response": {
+              "response": {
+                "responseFormat": "file"
+              }
+            }
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          32,
+          0
+        ],
+        "id": "e9a1d879-8745-4ef5-b6b4-cb48cab0b4d5",
+        "name": "get file",
+        "credentials": {
+          "zohoOAuth2Api": {
+            "id": "ctc33HbS8GvHZ3iA",
+            "name": "Zoho account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.extractFromFile",
+        "typeVersion": 1.1,
+        "position": [
+          240,
+          0
+        ],
+        "id": "e4f8fb5f-f328-4537-9ea1-e1bfd31c4eb4",
+        "name": "Extract from File"
+      },
+      {
+        "parameters": {
+          "jsCode": "const chunkArray = (arr, size) => \n  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>\n    arr.slice(i * size, i * size + size)\n  );\n\nfunction cleanDate(value = \"\") {\n    if (value == \"\") {\n        return \"\";\n    }\n    return new Date(value.replace(\"12:00:00 AM\", \"\").trim()).toISOString().split('T')[0];\n}\n\n\nreturn chunkArray($input.all().map(o=>o.json),100).map(o=>{\n  return {\n    json:{\n      data:o.map(item=>{\n        let keys = Object.keys(item);\n        console.log(keys)\n        return {\n          First_Name:item[keys[1]],\n          Last_Name:item[keys[0]],\n          SSN:item[keys[3]].replaceAll('-',''),\n          DOB:cleanDate(item[keys[2]]),\n          Position: item[keys[4]],\n          Address_1:item[keys[5]],\n          City:item[keys[6]],\n          State:item[keys[7]],\n          Zip:item[keys[8]],\n          First_Work_Date:cleanDate(item[keys[9]]),\n          Wage:Math.round((item[keys[10]]  || 0) * 100) / 100,\n        }\n      })\n    }\n  }\n});\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          448,
+          0
+        ],
+        "id": "33a2c745-b400-460c-84fb-bf0c4f6d8d91",
+        "name": "transform"
+      }
+    ],
+    "connections": {
+      "start": {
+        "main": [
+          [
+            {
+              "node": "get file",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "get file": {
+        "main": [
+          [
+            {
+              "node": "Extract from File",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Extract from File": {
+        "main": [
+          [
+            {
+              "node": "transform",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "sam mittelman",
+    "name": "Version e2702a60",
+    "description": "",
+    "autosaved": true
+  },
   "tags": []
 }
