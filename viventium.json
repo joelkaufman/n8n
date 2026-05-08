@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-08T13:18:03.182Z",
+  "updatedAt": "2026-05-08T14:28:04.767Z",
   "createdAt": "2026-05-08T02:02:05.311Z",
   "id": "vRjeNO1pbIz7Gksr",
   "name": "Viventium",
@@ -75,7 +75,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const crypto = require('crypto');\nfunction cleanDate(value = \"\") {\n    if (value == \"\") {\n        return \"\";\n    }\n    return new Date(value.replace(\"12:00:00 AM\", \"\").trim()).toISOString().split('T')[0];\n}\n\n// Source - https://stackoverflow.com/a/48161723\nasync function sha256(message) {\n    // encode as UTF-8\n    const msgBuffer = new TextEncoder().encode(message);   \n    // hash the message\n    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);\n\n    // convert ArrayBuffer to Array\n    const hashArray = Array.from(new Uint8Array(hashBuffer));\n\n    // convert bytes to hex string                  \n    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');\n    return hashHex;\n}\n\nconst chunkArray = (arr, size) => \n  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>\n    arr.slice(i * size, i * size + size)\n  );\n\nlet data = await Promise.all($input.all().map(async function(o){\n      console.log(o)\n      return {\n        Name:o.json['First Name'] + ' ' + o.json['Last Name'],\n        Last_Name:o.json['Last Name'],\n        First_Name:o.json['First Name'],\n        DOB:cleanDate(o.json['Birth Date']),\n        SSN:o.json['Social Security Number'].replaceAll('-',''),\n        Address_1:o.json['Primary Address 1'],\n        City:o.json['Primary City'],\n        State:o.json['Primary State'],\n        Zip:o.json['Primary Zip Code'],\n        Hire_Date:cleanDate(o.json['Hire Date']),\n        Rate:o.json['BaseRate'],\n        External_Id: await sha256(o.json['Social Security Number'].replaceAll('-','') + $('start').first().json.account_id),\n        Account:$('start').first().json.account_id,\n        Payroll_Report:$('start').first().json.payroll_report_id\n      }\n    }))\n\nreturn chunkArray(data,100).map(o=>{\n  return {\n    json:{\n      data:o\n    }\n  }\n})\n\n\n"
+        "jsCode": "const crypto = require('crypto');\nfunction cleanDate(value = \"\") {\n    if (value == \"\") {\n        return \"\";\n    }\n    return new Date(value.replace(\"12:00:00 AM\", \"\").trim()).toISOString().split('T')[0];\n}\n\n// Source - https://stackoverflow.com/a/48161723\nasync function sha256(message) {\n    // encode as UTF-8\n    const msgBuffer = new TextEncoder().encode(message);   \n    // hash the message\n    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);\n\n    // convert ArrayBuffer to Array\n    const hashArray = Array.from(new Uint8Array(hashBuffer));\n\n    // convert bytes to hex string                  \n    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');\n    return hashHex;\n}\n\nconst chunkArray = (arr, size) => \n  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>\n    arr.slice(i * size, i * size + size)\n  );\n\nlet data = await Promise.all($input.all().map(async function(o){\n      console.log(o)\n      return {\n        Name:o.json['First Name'] + ' ' + o.json['Last Name'],\n        Last_Name:o.json['Last Name'],\n        First_Name:o.json['First Name'],\n        DOB:cleanDate(o.json['Birth Date']),\n        SSN:o.json['Social Security Number'].replaceAll('-',''),\n        Address_1:o.json['Primary Address 1'],\n        City:o.json['Primary City'],\n        State:o.json['Primary State'],\n        Zip:o.json['Primary Zip Code'],\n        Hire_Date:cleanDate(o.json['Hire Date']),\n        Rate:Math.round((o.json['BaseRate'] || 0) * 100) / 100,\n        External_Id: await sha256(o.json['Social Security Number'].replaceAll('-','') + $('start').first().json.account_id),\n        Account:$('start').first().json.account_id,\n        Payroll_Report:$('start').first().json.payroll_report_id\n      }\n    }))\n\nreturn chunkArray(data,100).map(o=>{\n  return {\n    json:{\n      data:o\n    }\n  }\n})\n\n\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -84,33 +84,7 @@
         0
       ],
       "id": "3b242db1-3bff-41d1-8f3b-01b6dd707b31",
-      "name": "get data"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://www.zohoapis.com/crm/v8/Employees/upsert",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "zohoOAuth2Api",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"data\":{{ JSON.stringify($json.data) }},\n  \"duplicate_check_fields\": [\"External_Id\"]\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        704,
-        0
-      ],
-      "id": "1d62394d-d958-4bdf-bcfb-73e2522fae14",
-      "name": "upsert employees ",
-      "credentials": {
-        "zohoOAuth2Api": {
-          "id": "ctc33HbS8GvHZ3iA",
-          "name": "Zoho account 2"
-        }
-      }
+      "name": "transform data"
     }
   ],
   "connections": {
@@ -140,25 +114,14 @@
       "main": [
         [
           {
-            "node": "get data",
+            "node": "transform data",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "get data": {
-      "main": [
-        [
-          {
-            "node": "upsert employees ",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "upsert employees ": {
+    "transform data": {
       "main": [
         []
       ]
@@ -178,8 +141,8 @@
       {
         "json": {
           "account_id": "7377246000000945008",
-          "payroll_report_id": "7377246000000945021",
-          "file_id": "5543rd44a9cad6ce54b61977ef6328ec9a0dd"
+          "payroll_report_id": "7377246000000958005",
+          "file_id": "5543r68cc639c1243494f80707a329924eb8e"
         },
         "pairedItem": {
           "item": 0
@@ -187,7 +150,7 @@
       }
     ]
   },
-  "versionId": "f40fe674-1efd-49e1-9b09-6b114d6a2077",
+  "versionId": "8c0a432e-23bd-4b70-ae1f-e141568e38e5",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
