@@ -1,0 +1,177 @@
+{
+  "updatedAt": "2026-05-08T01:47:22.748Z",
+  "createdAt": "2026-05-08T01:23:53.519Z",
+  "id": "BKhpCfhaYEVJIaUO",
+  "name": "Visiting Aid",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "account_id"
+            },
+            {
+              "name": "payroll_report_id"
+            },
+            {
+              "name": "file_id"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -192,
+        0
+      ],
+      "id": "bc11e7c0-7541-4681-b848-759164196003",
+      "name": "start"
+    },
+    {
+      "parameters": {
+        "url": "=https://www.zohoapis.com/crm/v8/files?id={{ $json.file_id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "zohoOAuth2Api",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        32,
+        0
+      ],
+      "id": "61334286-5cb4-445e-95d2-672f362ca240",
+      "name": "get file",
+      "credentials": {
+        "zohoOAuth2Api": {
+          "id": "ctc33HbS8GvHZ3iA",
+          "name": "Zoho account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "document",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3.1-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3.1-flash-lite"
+        },
+        "text": "=extract the following columns: \n  Last Name as \"Last_Name\",\n  First Name as \"First_Name,\n  DOB,\n  SSN Last4 as SSN,\n  Address_1: extract the street number and street from column Full Address,\n state: extract the state from column Full Address,\n city: extract the city from column Full Address,\n\n  Hire Date as \"Hire_Date\",\n  First Day Worked As \"First_Day_Worked\",\n  Rate\n\nreturn in json\nall dates are in format yyyy-mm-dd",
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        256,
+        0
+      ],
+      "id": "f8639bf7-0421-411f-b96d-47652255e2e8",
+      "name": "Analyze document",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "OBJJzCCCdVK0aMVq",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let text = $json.content.parts[0].text\nconsole.log(text)\n\nconst start = text.indexOf('[');\nconst end = text.lastIndexOf(']');\n\nreturn {data:JSON.parse(text.slice(start, end + 1))}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        464,
+        0
+      ],
+      "id": "4e13dc0c-825d-44f8-a277-a31470642e3f",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "connections": {
+    "start": {
+      "main": [
+        [
+          {
+            "node": "get file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get file": {
+      "main": [
+        [
+          {
+            "node": "Analyze document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze document": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "start": [
+      {
+        "json": {
+          "account_id": "7377246000000840220",
+          "payroll_report_id": "7377246000000930071",
+          "file_id": "cks7ba1e2800bc86b4e1588ce0600f3cdedee"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "baaa4b8d-4ba3-4815-a325-9b31dac07cb7",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-05-08T01:23:53.519Z",
+      "createdAt": "2026-05-08T01:23:53.519Z",
+      "role": "workflow:owner",
+      "workflowId": "BKhpCfhaYEVJIaUO",
+      "projectId": "vJt8jIrywUfGQWf1"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
